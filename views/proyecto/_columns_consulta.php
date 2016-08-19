@@ -71,7 +71,7 @@ return [
     [
         'class' => 'kartik\grid\ActionColumn',
         'dropdown' => false,
-        'template' => '{view} ',
+        'template' => '{view} {aplicar}',
         'vAlign'=>'middle',
         'urlCreator' => function($action, $model, $key, $index) { 
             if ($action === 'update') 
@@ -83,20 +83,25 @@ return [
 
             return Url::to([$action,'id'=>$key]);
         },                
-        'viewOptions'=>['role'=>'modal-remote','title'=>Yii::t('app', 'View'),'data-toggle'=>'tooltip'],
+        'viewOptions'=>['role'=>'modal-remote','title'=>'Ver','data-toggle'=>'tooltip'],
     
 //            'template' => '{importdetail} {a} {2}',
-//            'buttons' => [
-//               'importdetail' => function ($url, $model) {
-//                    $title = Yii::t('app', 'View Details');
-//                    $icon = '<span class="glyphicon glyphicon-eye-open"></span>';
-//                    $label = ArrayHelper::remove($options, 'label', ($icon));
-//                    $label = ArrayHelper::remove($options, 'label', $icon . ' ' . $title);
-//                    $url = Url::toRoute(['importdetail','DataRefreshItemDetailSearch']);
-//
-//                    return Html::a($label, $url, $options);
-//                },
-//            ],        
+            'buttons' => [
+            'aplicar' => function ($url, $model) {
+                    if(true){
+                        return Html::buttonInput('Aplicar',['class'=>'btn btn-success btn-lg','id' => 'modal-open','onclick' => 
+                            "$('#aplicarModal').modal('show');
+                            $.ajax({
+                                url : '/proyecto/consulta',
+                                data : {'id' : $model->IdProyecto},
+                                success  : function(data) {
+                                    $('.modal-body').html(data);
+                                }
+                            });
+                        "]);
+                    }
+                },
+            ],
     ],
 
 ];   

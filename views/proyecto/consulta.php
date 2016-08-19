@@ -34,6 +34,7 @@ CrudAsset::register($this);
             'striped' => true,
             'condensed' => true,
             'responsive' => true,          
+            'hover' => true,
             'panel' => [
                 'type' => 'primary', 
                 'heading' => '<i class="glyphicon glyphicon-list"></i> Listado de Proyectos',
@@ -57,6 +58,14 @@ CrudAsset::register($this);
 </div>
 <?php Modal::begin([
     "id"=>"ajaxCrubModal",
+    "size" => 'modal-lg',
+    "footer"=>"",// always need it for jquery plugin
+])?>
+<?php Modal::end(); ?>
+
+<?php Modal::begin([
+    "id"=>"aplicarModal",
+    "size" => 'modal-lg',
     "footer"=>"",// always need it for jquery plugin
 ])?>
 <?php Modal::end(); ?>
