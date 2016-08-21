@@ -60,17 +60,23 @@ return [
          'attribute'=>'NumeroPersonas',
          'label' => 'Personas requeridas'
     ],
+//    [
+//        'class' => '\kartik\grid\DataColumn',
+//        'value' => function ($data) {
+//            return $data->CuposDisponibles; // $data['name'] for array data, e.g. using SqlDataProvider.
+//        },        
+//        'label'=> 'Cupos disponibles' 
+//    ],      
     [
-        'class' => '\kartik\grid\DataColumn',
-        'value' => function ($data) {
-            return $data->CuposDisponibles; // $data['name'] for array data, e.g. using SqlDataProvider.
-        },        
-        'label'=> 'Cupos disponibles' 
-    ],       
+        'class'=>'\kartik\grid\DataColumn',
+        'attribute'=>'idEstadoProyecto.EstadoProyecto',
+        'label'=>'Estado del proyecto',
+        'filter' => Html::activeDropDownList($searchModel, 'IdEstadoProyecto', ArrayHelper::map(EstadosProyecto::find()->asArray()->where(['EstadoRegistro' => '1'])->all(), 'IdEstadoProyecto', 'EstadoProyecto'),['class'=>'form-control','prompt' => 'Seleccione estado del proyecto']),
+    ],                
     [
         'class' => 'kartik\grid\ActionColumn',
         'dropdown' => false,
-        'template' => '{view} {aplicar}',
+        'template' => '{view} {detalle}',
         'vAlign'=>'middle',
         'urlCreator' => function($action, $model, $key, $index) { 
             if ($action === 'update') 
@@ -84,18 +90,17 @@ return [
         },                
         'viewOptions'=>['role'=>'modal-remote','title'=>'Ver','data-toggle'=>'tooltip'],
     
-//            'template' => '{importdetail} {a} {2}',
             'buttons' => [
-            'aplicar' => function ($url, $model) {
+            'detalle' => function ($url, $model) {
                     if(true){
-                        return Html::buttonInput('Reservar un cupo',['class'=>'btn btn-success btn-lg','id' => 'modal-open','onclick' => 
-                            "$('#aplicarModal').modal('show');
+                        return Html::a('<span class="glyphicon glyphicon-file"></span>',null,['class'=>'','id' => 'modal-open','onclick' => 
+                            "$('#detalleModal').modal('show');
                             $.ajax({
-                                url : '/proyecto/reservar-cupo',
+                                url : '/proyecto/detalle-asesor',
                                 data : {'id' : $model->IdProyecto},
                                 success  : function(data) {
                                     $('.modal-body').html(data);
-                                    $('.modal-header').html('<h3 id=modalTitle>Confirmar reserva de cupo para el proyecto # $model->IdProyecto</h3>');
+                                    $('.modal-header').html('<h3 id=modalTitle>Detalle del proyecto # $model->IdProyecto</h3>');
                                 }
                             });
                         "]);

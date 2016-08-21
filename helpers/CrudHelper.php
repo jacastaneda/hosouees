@@ -52,4 +52,21 @@ class CrudHelper
         return 'Femenino';        
       }
     }    
+    
+    const SI = '1';
+    const NO = '0';
+    
+    public static function getSiNo() 
+    {
+        return array (self::SI=>'SI', self::NO=>'NO');
+    }
+     
+    public static function getSiNoLabel($val) {
+      if ($val==self::SI) {
+        return '<span class="glyphicon glyphicon-ok text-success"> SI</span>';
+        
+      } elseif($val==self::NO) {
+        return '<span class="glyphicon glyphicon-remove text-danger"> NO</span>';        
+      }
+    }        
 }

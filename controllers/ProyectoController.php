@@ -11,6 +11,8 @@ use yii\filters\VerbFilter;
 use yii\web\UploadedFile;
 use \yii\web\Response;
 use yii\helpers\Html;
+use app\helpers\PersonaHelper;
+use app\helpers\EmailHelper;
 
 /**
  * ProyectoController implements the CRUD actions for Proyecto model.
@@ -62,11 +64,98 @@ class ProyectoController extends Controller
         ]);
     }    
     
-    /**
-     * Displays a single Proyecto model.
-     * @param integer $id
+   /**
+     * Lists all Proyecto models.
      * @return mixed
      */
+    public function actionReservarCupo($id)
+    {    
+        $persona = PersonaHelper::getPersona();
+        $model = $this->findModel($id);
+        if($model->getPersonaActivaProyecto($persona->IdPersona) > 0)
+        {
+            $view ='cupo_reservado';
+        }
+        elseif($model->getCuposDisponibles() > 0)
+        {
+            $view ='reservar_cupo';
+        }
+        else
+        {
+            $view ='cupos_agotados';
+        }
+           
+        return $this->renderAjax($view, [
+            'model' => $model,
+            'persona' =>$persona
+        ]);
+    } 
+    
+  /**
+     * Lists all Proyecto models.
+     * @return mixed
+     */
+    public function actionGuardarReservaCupo($IdProyecto, $IdPersona)
+    {    
+        $persona = PersonaHelper::getPersona();
+        $model = $this->findModel($IdProyecto);
+        if($model->getCuposDisponibles() > 0)
+        {
+            $cupo = new \app\models\Horas();
+            $cupo->IdPersona = $IdPersona;
+            $cupo->IdProyecto = $IdProyecto;
+            $cupo->EstadoRegistro = '1';
+            $cupo->PersonaActiva = '1';
+            $cupo->HorasRealizadas = 0;
+            $cupo->save();              
+            
+            EmailHelper::sendEmailReservaCupo($model, $persona);
+            $view = 'cupo_reservado';
+        }
+        else
+        {
+            $view = 'cupos_agotados';
+        }
+        
+        return $this->renderAjax($view, [
+            'model' => $model,
+            'persona' =>$persona
+        ]);        
+    }    
+    
+   /**
+     * Lists all Proyecto models.
+     * @return mixed
+     */
+    public function actionConsultaAsesor()
+    {    
+        $persona = PersonaHelper::getPersona();
+        $searchModel = new ProyectoSearch();
+
+        $condicion = (\Yii::$app->user->can('VerTodosProyectos')) ? ['EstadoRegistro' => '1'] : ['EstadoRegistro' => '1', 'IdPersonaAsesor'=> $persona->IdPersona];
+        $dataProvider = $searchModel->search(Yii::$app->request->queryParams, $condicion);
+
+        return $this->render('consulta_asesor', [
+            'searchModel' => $searchModel,
+            'dataProvider' => $dataProvider,
+        ]);
+    }       
+    
+    /**
+     * Lists all Proyecto models.
+     * @return mixed
+     */
+    public function actionDetalleAsesor($id)
+    {    
+        $persona = PersonaHelper::getPersona();
+        $model = $this->findModel($id);
+           
+        return $this->renderAjax('detalle_asesor', [
+            'model' => $model,
+            'persona' =>$persona
+        ]);
+    }    
+    
     /**
      * Displays a single Proyecto model.
      * @param integer $id

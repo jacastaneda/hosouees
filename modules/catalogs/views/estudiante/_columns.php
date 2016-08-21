@@ -6,17 +6,17 @@ use app\helpers\CrudHelper;
 use app\modules\catalogs\models\Carrera;
 
 return [
-    [
-        'class' => 'kartik\grid\CheckboxColumn',
-        'width' => '20px',
-    ],
+//    [
+//        'class' => 'kartik\grid\CheckboxColumn',
+//        'width' => '20px',
+//    ],
     [
         'class' => 'kartik\grid\SerialColumn',
         'width' => '30px',
     ],
-        [
+    [
         'class'=>'\kartik\grid\DataColumn',
-        'attribute'=>'IdPersona',
+        'attribute'=>'CarnetEstudiante',
     ],
     [
         'class'=>'\kartik\grid\DataColumn',
@@ -31,10 +31,6 @@ return [
     [
         'class'=>'\kartik\grid\DataColumn',
         'attribute'=>'Apellidos',
-    ],
-    [
-        'class'=>'\kartik\grid\DataColumn',
-        'attribute'=>'CarnetEstudiante',
     ],
 //    [
 //        'class'=>'\kartik\grid\DataColumn',
@@ -91,6 +87,16 @@ return [
         // 'class'=>'\kartik\grid\DataColumn',
         // 'attribute'=>'NombreAdjunto',
     // ],
+    [
+        'class' => '\kartik\grid\DataColumn',
+        'attribute'=>'Elegible',
+        'value' => function ($data) {
+            return CrudHelper::getSiNoLabel($data->Elegible); // $data['name'] for array data, e.g. using SqlDataProvider.
+        },        
+        'label'=> 'Elegible',
+        'format' => 'html',
+        'filter' => ['0' => 'NO', '1' => 'SI'],  
+    ],                
     [
         'class' => '\kartik\grid\DataColumn',
         'attribute'=>'EstadoRegistro',

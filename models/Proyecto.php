@@ -1,11 +1,9 @@
 <?php
 
-namespace app\modules\catalogs\models;
+namespace app\models;
 
 use Yii;
-use yii\web\UploadedFile;
-use app\models\Horas;
-use app\models\Asistencia;
+
 /**
  * This is the model class for table "proyecto".
  *
@@ -23,18 +21,17 @@ use app\models\Asistencia;
  * @property string $ArchivoAdjunto
  * @property string $NombreAdjunto
  * @property string $EstadoRegistro
- 
- * @property Asistencia[] $asistencias 
+ *
+ * @property Asistencia[] $asistencias
  * @property Comunicacion[] $comunicacions
  * @property Horas[] $horas
  * @property Persona[] $idPersonas
  * @property EstadosProyecto $idEstadoProyecto
  * @property Institucion $idInstitucion
+ * @property Persona $idPersonaAsesor
  */
 class Proyecto extends \yii\db\ActiveRecord
 {
-    public $image;
-    
     /**
      * @inheritdoc
      */
@@ -49,8 +46,6 @@ class Proyecto extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['image'], 'safe'],
-            [['image'], 'file', 'extensions'=>'jpg, gif, png'],            
             [['NombreProyecto', 'Ubicacion', 'IdInstitucion', 'IdEstadoProyecto'], 'required'],
             [['HorasSolicitadas', 'IdInstitucion', 'IdEstadoProyecto', 'IdPersonaAsesor', 'NumeroPersonas'], 'integer'],
             [['HorasSocialesXhora'], 'number'],
@@ -69,14 +64,13 @@ class Proyecto extends \yii\db\ActiveRecord
     public function attributeLabels()
     {
         return [
-            'image' => Yii::t('app', 'Fotografía'),
             'IdProyecto' => Yii::t('app', 'Id Proyecto'),
             'NombreProyecto' => Yii::t('app', 'Nombre Proyecto'),
             'HorasSolicitadas' => Yii::t('app', 'Horas Solicitadas'),
             'HorasSocialesXhora' => Yii::t('app', 'Horas Sociales Xhora'),
             'Ubicacion' => Yii::t('app', 'Ubicacion'),
-            'FechaIni' => Yii::t('app', 'Fecha Inicio'),
-            'FechaFin' => Yii::t('app', 'Fecha Finalización'),
+            'FechaIni' => Yii::t('app', 'Fecha Ini'),
+            'FechaFin' => Yii::t('app', 'Fecha Fin'),
             'IdInstitucion' => Yii::t('app', 'Id Institucion'),
             'IdEstadoProyecto' => Yii::t('app', 'Id Estado Proyecto'),
             'IdPersonaAsesor' => Yii::t('app', 'Id Persona Asesor'),
@@ -86,14 +80,14 @@ class Proyecto extends \yii\db\ActiveRecord
             'EstadoRegistro' => Yii::t('app', 'Estado Registro'),
         ];
     }
-    
+
     /**
      * @return \yii\db\ActiveQuery
      */
     public function getAsistencias()
     {
         return $this->hasMany(Asistencia::className(), ['IdProyecto' => 'IdProyecto'])->inverseOf('idProyecto');
-    }    
+    }
 
     /**
      * @return \yii\db\ActiveQuery
@@ -118,45 +112,7 @@ class Proyecto extends \yii\db\ActiveRecord
     {
         return $this->hasMany(Persona::className(), ['IdPersona' => 'IdPersona'])->viaTable('horas', ['IdProyecto' => 'IdProyecto']);
     }
-    
-    /**
-     * @return \yii\db\ActiveQuery sobre las personas que estan activas en el proyecto
-     */
-    public function getIdPersonasActivas()
-    {
-        return $this->hasMany(Persona::className(), ['IdPersona' => 'IdPersona'])->viaTable('horas', ['IdProyecto' => 'IdProyecto'],function ($query) {
-            /* @var $query \yii\db\ActiveQuery */
 
-            $query->andWhere(['PersonaActiva' => '1']);
-        });
-    }   
-    
-    
-    /**
-     * @return Integer la cuenta de los cupos utilizados en el proyecto
-     */    
-    public function getCuposUtilizados()
-    {
-       return $this->getIdPersonasActivas()->count();
-    }    
-
-    /**
-     * @return Integer la cuenta de los cupos disponibles en el proyecto
-     */       
-    public function getCuposDisponibles()
-    {
-        $cupos = $this->NumeroPersonas - $this->getIdPersonasActivas()->count();
-        return $cupos;
-    }
-    
-    /**
-     * @return Retorna 1 si la persona ya esta activa en el proyecto
-     */
-    public function getPersonaActivaProyecto($idPersona)
-    {
-        return $this->getIdPersonasActivas()->andWhere(['IdPersona' => $idPersona])->count();
-    }     
-    
     /**
      * @return \yii\db\ActiveQuery
      */
@@ -180,86 +136,13 @@ class Proyecto extends \yii\db\ActiveRecord
     {
         return $this->hasOne(Persona::className(), ['IdPersona' => 'IdPersonaAsesor'])->inverseOf('proyectos');
     }
-    
-    
+
     /**
      * @inheritdoc
-     * @return ProyectoQuery the active query used by this AR class.
+     * @return ProQuery the active query used by this AR class.
      */
     public static function find()
     {
-        return new ProyectoQuery(get_called_class());
+        return new ProQuery(get_called_class());
     }
-    
-    /**
-     * fetch stored image file name with complete path 
-     * @return string
-     */
-    public function getImageFile() 
-    {
-        return isset($this->ArchivoAdjunto) ? Yii::$app->params['uploadPath'] . $this->ArchivoAdjunto : null;
-    }    
-    
-    /**
-     * fetch stored image url
-     * @return string
-     */
-    public function getImageUrl() 
-    {
-        // return a default image placeholder if your source avatar is not found
-        $avatar = isset($this->ArchivoAdjunto) ? $this->ArchivoAdjunto : 'default_user.jpg';
-        return Yii::$app->params['uploadUrl'] . $avatar;
-    }    
-    
-    /**
-    * Process upload of image
-    *
-    * @return mixed the uploaded image instance
-    */
-    public function uploadImage() {
-        // get the uploaded file instance. for multiple file uploads
-        // the following data will return an array (you may need to use
-        // getInstances method)
-        $image = UploadedFile::getInstance($this, 'image');
-
-        // if no image was uploaded abort the upload
-        if (empty($image)) {
-            return false;
-        }
-
-        // store the source file name
-        $this->NombreAdjunto = $image->name;
-        $ext = pathinfo($image->name, PATHINFO_EXTENSION);
-
-        // generate a unique file name
-        $this->ArchivoAdjunto = Yii::$app->security->generateRandomString().".{$ext}";
-
-        // the uploaded image instance
-        return $image;
-    }   
-    
-    /**
-    * Process deletion of image
-    *
-    * @return boolean the status of deletion
-    */
-    public function deleteImage() {
-        $file = $this->getImageFile();
-
-        // check if file exists on server
-        if (empty($file) || !file_exists($file)) {
-            return false;
-        }
-
-        // check if uploaded file can be deleted on server
-        if (!unlink($file)) {
-            return false;
-        }
-
-        // if deletion successful, reset your file attributes
-        $this->ArchivoAdjunto = null;
-        $this->NombreAdjunto = null;
-
-        return true;
-    }    
 }

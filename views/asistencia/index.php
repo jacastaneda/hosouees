@@ -7,16 +7,15 @@ use johnitvn\ajaxcrud\CrudAsset;
 use johnitvn\ajaxcrud\BulkButtonWidget;
 
 /* @var $this yii\web\View */
-/* @var $searchModel app\modules\catalogs\models\PersonaSearch */
+/* @var $searchModel app\models\AsistenciaSearch */
 /* @var $dataProvider yii\data\ActiveDataProvider */
 
-$this->title = Yii::t('app', 'Estudiante');
-$this->params['breadcrumbs'][] = $this->title;
+$this->title = 'Asistencias del proyecto '.$proyecto->NombreProyecto;
 
 CrudAsset::register($this);
 
 ?>
-<div class="persona-index">
+<div class="asistencia-index">
     <div id="ajaxCrudDatatable">
         <?=GridView::widget([
             'id'=>'crud-datatable',
@@ -26,10 +25,10 @@ CrudAsset::register($this);
             'columns' => require(__DIR__.'/_columns.php'),
             'toolbar'=> [
                 ['content'=>
-                    Html::a('<i class="glyphicon glyphicon-plus"></i>', ['/estudiante/create'],
-                    [/*'role'=>'modal-remote',*/'title'=> 'Crear nuevo Estudiante','class'=>'btn btn-default']).
-                    Html::a('<i class="glyphicon glyphicon-repeat"></i>', [''],
-                    ['data-pjax'=>1, 'class'=>'btn btn-default', 'title'=>'Reset Grid']).
+                    Html::a('<i class="glyphicon glyphicon-plus"></i>', ['/asistencia/create', 'idProyecto'=> $proyecto->IdProyecto],
+                    ['role'=>'modal-remote','title'=> 'Agregar asistencia','class'=>'btn btn-default']).
+                    Html::a('<i class="glyphicon glyphicon-repeat"></i>', ['/asistencia', 'idProyecto'=> $proyecto->IdProyecto],
+                    ['data-pjax'=>1, 'class'=>'btn btn-default', 'title'=>'Refrescar']).
                     '{toggleData}'.
                     '{export}'
                 ],
@@ -39,10 +38,10 @@ CrudAsset::register($this);
             'responsive' => true,          
             'panel' => [
                 'type' => 'primary', 
-                'heading' => '<i class="glyphicon glyphicon-list"></i> Listado de estudiantes',
+                'heading' => '<i class="glyphicon glyphicon-list"></i> Listado de asistencia',
                 'before'=>'<em>* '.Yii::t('app','Resize table columns just like a spreadsheet by dragging the column edges.').'</em>',
 //                'after'=>BulkButtonWidget::widget([
-//                            'buttons'=>Html::a('<i class="glyphicon glyphicon-trash"></i>&nbsp; '.Yii::t('app', 'Delete all'),
+//                            'buttons'=>Html::a('<i class="glyphicon glyphicon-trash"></i>&nbsp; Delete All',
 //                                ["bulk-delete"] ,
 //                                [
 //                                    "class"=>"btn btn-danger btn-xs",
@@ -53,14 +52,13 @@ CrudAsset::register($this);
 //                                    'data-confirm-message'=>Yii::t('app','Are you sure want to delete this item?')
 //                                ]),
 //                        ]).                        
-//                        '<div class="clearfix"></div>',
+                        '<div class="clearfix"></div>',
             ]
         ])?>
     </div>
 </div>
 <?php Modal::begin([
     "id"=>"ajaxCrubModal",
-    "size" => 'modal-lg',
     "footer"=>"",// always need it for jquery plugin
 ])?>
 <?php Modal::end(); ?>

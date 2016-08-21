@@ -52,7 +52,9 @@ $carreras = ArrayHelper::map(Carrera::find()->where(['EstadoRegistro' => '1'])->
 
     <?= $form->field($model, 'Telefono')->textInput(['maxlength' => true]) ?>
 
-    <?php // echo $form->field($model, 'Cargo')->textInput(['maxlength' => true]) ?>
+    <?= $form->field($model, 'Elegible')->dropDownList(CrudHelper::getSiNo(), 
+             ['prompt'=>'- Seleccione si es elegible para horas sociales-']) ?>  
+    
 
     <?= $form->field($model, 'UserId')->dropDownList($usuarios, 
              ['prompt'=>'- Seleccione el usuario -', 'id'=>'UserId-id'])->label('Usuario') ?>      

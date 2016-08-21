@@ -26,10 +26,12 @@ use yii\helpers\Html;
 //                    ['label' => 'Debug', 'icon' => 'fa fa-dashboard', 'url' => ['/debug']],
                     ['label' => 'Login', 'url' => ['site/login'], 'visible' => Yii::$app->user->isGuest],
                     ['label' => 'Proyectos abiertos', 'url' => ['/proyecto/consulta'], 'visible' => true],
+                    ['label' => 'Proyectos asesorados', 'url' => ['/proyecto/consulta-asesor'], 'visible' => true],
                     [
                         'label' => 'Usuarios y permisos',
                         'icon' => 'fa fa-user',
                         'url' => '#',
+                        'visible'=> Yii::$app->user->can('AdministrarRBAC'),
                         'items' => [
                             ['label' => 'Usuarios', 'icon' => '', 'url' => ['/user/manager'], 'visible'=>\Yii::$app->user->can('MantoUsuarios')],
                             ['label' => 'Roles', 'icon' => '', 'url' => ['/rbac/role'], 'visible'=>\Yii::$app->user->can('MantoRoles')],
@@ -42,6 +44,7 @@ use yii\helpers\Html;
                         'label' => 'Catálogos',
                         'icon' => 'fa fa-navicon',
                         'url' => '#',
+                        'visible'=> Yii::$app->user->can('AdministrarCatalogos'),
                         'items' => [
                             ['label' => 'Universidades', 'icon' => '', 'url' => ['/catalogs/universidad'], 'visible'=>\Yii::$app->user->can('MantoUniversidades')],
                             ['label' => 'Carreras', 'icon' => '', 'url' => ['/catalogs/carrera'], 'visible'=>\Yii::$app->user->can('MantoFacultades')],
@@ -55,6 +58,7 @@ use yii\helpers\Html;
                         'label' => 'Same tools',
                         'icon' => 'fa fa-share',
                         'url' => '#',
+                        'visible'=> Yii::$app->user->can('AccederGII'),
                         'items' => [
                             ['label' => 'Gii', 'icon' => 'fa fa-file-code-o', 'url' => ['/gii'],],
                             ['label' => 'Debug', 'icon' => 'fa fa-dashboard', 'url' => ['/debug'],],                          

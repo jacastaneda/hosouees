@@ -66,6 +66,14 @@ class SiteController extends Controller
         }        
         else
         {
+//            Yii::$app->mailer->compose()
+//                ->setFrom(\Yii::$app->params['adminEmail'])
+//                ->setTo('smokecastaneda@gmail.com')
+//                ->setSubject('Message subject')
+//                ->setTextBody('Plain text content')
+//                ->setHtmlBody('<b>HTML content</b>')
+//                ->send();        
+            
            return $this->render('index'); 
         }
         

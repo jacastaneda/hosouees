@@ -4,6 +4,8 @@ namespace app\modules\catalogs\models;
 
 use Yii;
 use yii\web\UploadedFile;
+use app\models\Horas;
+use app\models\Asistencia;
 /**
  * This is the model class for table "persona".
  *
@@ -21,9 +23,11 @@ use yii\web\UploadedFile;
  * @property integer $UserId
  * @property string $TipoPersona
  * @property integer $IdCarrera
+ * @property string $Elegible
  * @property string $ArchivoAdjunto
  * @property string $NombreAdjunto
  * @property string $EstadoRegistro
+ * @property Asistencia[] $asistencias
  *
  * @property Horas[] $horas
  * @property Proyecto[] $idProyectos
@@ -57,7 +61,7 @@ class Persona extends \yii\db\ActiveRecord
             [['DUI', 'Direccion'], 'string', 'max' => 10],
             [['NIT'], 'string', 'max' => 17],
             [['Telefono'], 'string', 'max' => 8],
-            [['Sexo', 'EstadoRegistro'], 'string', 'max' => 1],
+            [['Sexo', 'EstadoRegistro', 'Elegible'], 'string', 'max' => 1],
             [['Cargo'], 'string', 'max' => 25],
             [['TipoPersona'], 'string', 'max' => 2],
             [['ArchivoAdjunto', 'NombreAdjunto'], 'string', 'max' => 150],
@@ -91,9 +95,18 @@ class Persona extends \yii\db\ActiveRecord
             'ArchivoAdjunto' => Yii::t('app', 'Archivo Adjunto'),
             'NombreAdjunto' => Yii::t('app', 'Nombre Adjunto'),
             'EstadoRegistro' => Yii::t('app', 'Estado Registro'),
+            'Elegible' => Yii::t('app', 'Es elegible para horas sociales'),
         ];
     }
 
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getAsistencias()
+    {
+        return $this->hasMany(Asistencia::className(), ['IdPersona' => 'IdPersona'])->inverseOf('idPersona');
+    }    
+    
     /**
      * @return \yii\db\ActiveQuery
      */

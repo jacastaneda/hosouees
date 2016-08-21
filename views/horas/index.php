@@ -7,16 +7,15 @@ use johnitvn\ajaxcrud\CrudAsset;
 use johnitvn\ajaxcrud\BulkButtonWidget;
 
 /* @var $this yii\web\View */
-/* @var $searchModel app\modules\catalogs\models\PersonaSearch */
+/* @var $searchModel app\models\HorasSearch */
 /* @var $dataProvider yii\data\ActiveDataProvider */
 
-$this->title = Yii::t('app', 'Estudiante');
-$this->params['breadcrumbs'][] = $this->title;
+$this->title = 'Horas obtenidas del proyecto '.$proyecto->NombreProyecto;
 
 CrudAsset::register($this);
 
 ?>
-<div class="persona-index">
+<div class="horas-index">
     <div id="ajaxCrudDatatable">
         <?=GridView::widget([
             'id'=>'crud-datatable',
@@ -26,10 +25,10 @@ CrudAsset::register($this);
             'columns' => require(__DIR__.'/_columns.php'),
             'toolbar'=> [
                 ['content'=>
-                    Html::a('<i class="glyphicon glyphicon-plus"></i>', ['/estudiante/create'],
-                    [/*'role'=>'modal-remote',*/'title'=> 'Crear nuevo Estudiante','class'=>'btn btn-default']).
-                    Html::a('<i class="glyphicon glyphicon-repeat"></i>', [''],
-                    ['data-pjax'=>1, 'class'=>'btn btn-default', 'title'=>'Reset Grid']).
+                    Html::a('<i class="glyphicon glyphicon-plus"></i>', ['/horas/create', 'idProyecto'=> $proyecto->IdProyecto],
+                    ['role'=>'modal-remote','title'=> 'Agregar registro','class'=>'btn btn-default']).
+                    Html::a('<i class="glyphicon glyphicon-repeat"></i>', ['/horas', 'idProyecto'=> $proyecto->IdProyecto],
+                    ['data-pjax'=>1, 'class'=>'btn btn-default', 'title'=>'Refrescar']).
                     '{toggleData}'.
                     '{export}'
                 ],
@@ -39,21 +38,21 @@ CrudAsset::register($this);
             'responsive' => true,          
             'panel' => [
                 'type' => 'primary', 
-                'heading' => '<i class="glyphicon glyphicon-list"></i> Listado de estudiantes',
+                'heading' => '<i class="glyphicon glyphicon-list"></i> Listado',
                 'before'=>'<em>* '.Yii::t('app','Resize table columns just like a spreadsheet by dragging the column edges.').'</em>',
 //                'after'=>BulkButtonWidget::widget([
-//                            'buttons'=>Html::a('<i class="glyphicon glyphicon-trash"></i>&nbsp; '.Yii::t('app', 'Delete all'),
+//                            'buttons'=>Html::a('<i class="glyphicon glyphicon-trash"></i>&nbsp; Delete All',
 //                                ["bulk-delete"] ,
 //                                [
 //                                    "class"=>"btn btn-danger btn-xs",
 //                                    'role'=>'modal-remote-bulk',
 //                                    'data-confirm'=>false, 'data-method'=>false,// for overide yii data api
 //                                    'data-request-method'=>'post',
-//                                    'data-confirm-title'=>Yii::t('app','Are you sure?'),
-//                                    'data-confirm-message'=>Yii::t('app','Are you sure want to delete this item?')
+//                                    'data-confirm-title'=>'Are you sure?',
+//                                    'data-confirm-message'=>'Are you sure want to delete this item'
 //                                ]),
 //                        ]).                        
-//                        '<div class="clearfix"></div>',
+                        '<div class="clearfix"></div>',
             ]
         ])?>
     </div>

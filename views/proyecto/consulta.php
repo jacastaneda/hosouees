@@ -26,7 +26,7 @@ CrudAsset::register($this);
             'toolbar'=> [
                 ['content'=>
                     Html::a('<i class="glyphicon glyphicon-repeat"></i>', [''],
-                    ['data-pjax'=>1, 'class'=>'btn btn-default', 'title'=>'Refrescar']).
+                    ['data-pjax'=>1, 'class'=>'btn btn-default', 'id'=>'btnRefreshConsultaProyectos', 'title'=>'Refrescar']).
                     '{toggleData}'.
                     '{export}'
                 ],

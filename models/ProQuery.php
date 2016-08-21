@@ -3,11 +3,11 @@
 namespace app\models;
 
 /**
- * This is the ActiveQuery class for [[Persona]].
+ * This is the ActiveQuery class for [[Proyecto]].
  *
- * @see Persona
+ * @see Proyecto
  */
-class PersonaQuery extends \yii\db\ActiveQuery
+class ProQuery extends \yii\db\ActiveQuery
 {
     /*public function active()
     {
@@ -16,7 +16,7 @@ class PersonaQuery extends \yii\db\ActiveQuery
 
     /**
      * @inheritdoc
-     * @return Persona[]|array
+     * @return Proyecto[]|array
      */
     public function all($db = null)
     {
@@ -25,7 +25,7 @@ class PersonaQuery extends \yii\db\ActiveQuery
 
     /**
      * @inheritdoc
-     * @return Persona|array|null
+     * @return Proyecto|array|null
      */
     public function one($db = null)
     {
