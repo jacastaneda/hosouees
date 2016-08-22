@@ -1,11 +1,8 @@
 <?php
-
 namespace app\modules\catalogs\models;
-
 use Yii;
 use yii\web\UploadedFile;
-use app\models\Horas;
-use app\models\Asistencia;
+use app\models\Comunicacion;
 /**
  * This is the model class for table "proyecto".
  *
@@ -23,8 +20,7 @@ use app\models\Asistencia;
  * @property string $ArchivoAdjunto
  * @property string $NombreAdjunto
  * @property string $EstadoRegistro
- 
- * @property Asistencia[] $asistencias 
+ *
  * @property Comunicacion[] $comunicacions
  * @property Horas[] $horas
  * @property Persona[] $idPersonas
@@ -42,7 +38,6 @@ class Proyecto extends \yii\db\ActiveRecord
     {
         return 'proyecto';
     }
-
     /**
      * @inheritdoc
      */
@@ -62,7 +57,6 @@ class Proyecto extends \yii\db\ActiveRecord
             [['IdPersonaAsesor'], 'exist', 'skipOnError' => true, 'targetClass' => Persona::className(), 'targetAttribute' => ['IdPersonaAsesor' => 'IdPersona']],
         ];
     }
-
     /**
      * @inheritdoc
      */
@@ -86,15 +80,6 @@ class Proyecto extends \yii\db\ActiveRecord
             'EstadoRegistro' => Yii::t('app', 'Estado Registro'),
         ];
     }
-    
-    /**
-     * @return \yii\db\ActiveQuery
-     */
-    public function getAsistencias()
-    {
-        return $this->hasMany(Asistencia::className(), ['IdProyecto' => 'IdProyecto'])->inverseOf('idProyecto');
-    }    
-
     /**
      * @return \yii\db\ActiveQuery
      */
@@ -102,7 +87,6 @@ class Proyecto extends \yii\db\ActiveRecord
     {
         return $this->hasMany(Comunicacion::className(), ['IdProyecto' => 'IdProyecto'])->inverseOf('idProyecto');
     }
-
     /**
      * @return \yii\db\ActiveQuery
      */
@@ -110,7 +94,6 @@ class Proyecto extends \yii\db\ActiveRecord
     {
         return $this->hasMany(Horas::className(), ['IdProyecto' => 'IdProyecto'])->inverseOf('idProyecto');
     }
-
     /**
      * @return \yii\db\ActiveQuery
      */
@@ -120,42 +103,25 @@ class Proyecto extends \yii\db\ActiveRecord
     }
     
     /**
-     * @return \yii\db\ActiveQuery sobre las personas que estan activas en el proyecto
+     * @return \yii\db\ActiveQuery
      */
     public function getIdPersonasActivas()
     {
         return $this->hasMany(Persona::className(), ['IdPersona' => 'IdPersona'])->viaTable('horas', ['IdProyecto' => 'IdProyecto'],function ($query) {
             /* @var $query \yii\db\ActiveQuery */
-
             $query->andWhere(['PersonaActiva' => '1']);
         });
     }   
     
-    
-    /**
-     * @return Integer la cuenta de los cupos utilizados en el proyecto
-     */    
     public function getCuposUtilizados()
     {
        return $this->getIdPersonasActivas()->count();
     }    
-
-    /**
-     * @return Integer la cuenta de los cupos disponibles en el proyecto
-     */       
     public function getCuposDisponibles()
     {
         $cupos = $this->NumeroPersonas - $this->getIdPersonasActivas()->count();
         return $cupos;
     }
-    
-    /**
-     * @return Retorna 1 si la persona ya esta activa en el proyecto
-     */
-    public function getPersonaActivaProyecto($idPersona)
-    {
-        return $this->getIdPersonasActivas()->andWhere(['IdPersona' => $idPersona])->count();
-    }     
     
     /**
      * @return \yii\db\ActiveQuery
@@ -164,7 +130,6 @@ class Proyecto extends \yii\db\ActiveRecord
     {
         return $this->hasOne(EstadosProyecto::className(), ['IdEstadoProyecto' => 'IdEstadoProyecto'])->inverseOf('proyectos');
     }
-
     /**
      * @return \yii\db\ActiveQuery
      */
@@ -172,7 +137,6 @@ class Proyecto extends \yii\db\ActiveRecord
     {
         return $this->hasOne(Institucion::className(), ['IdInstitucion' => 'IdInstitucion'])->inverseOf('proyectos');
     }
-
     /**
      * @return \yii\db\ActiveQuery
      */
@@ -221,19 +185,15 @@ class Proyecto extends \yii\db\ActiveRecord
         // the following data will return an array (you may need to use
         // getInstances method)
         $image = UploadedFile::getInstance($this, 'image');
-
         // if no image was uploaded abort the upload
         if (empty($image)) {
             return false;
         }
-
         // store the source file name
         $this->NombreAdjunto = $image->name;
         $ext = pathinfo($image->name, PATHINFO_EXTENSION);
-
         // generate a unique file name
         $this->ArchivoAdjunto = Yii::$app->security->generateRandomString().".{$ext}";
-
         // the uploaded image instance
         return $image;
     }   
@@ -245,21 +205,17 @@ class Proyecto extends \yii\db\ActiveRecord
     */
     public function deleteImage() {
         $file = $this->getImageFile();
-
         // check if file exists on server
         if (empty($file) || !file_exists($file)) {
             return false;
         }
-
         // check if uploaded file can be deleted on server
         if (!unlink($file)) {
             return false;
         }
-
         // if deletion successful, reset your file attributes
         $this->ArchivoAdjunto = null;
         $this->NombreAdjunto = null;
-
         return true;
     }    
 }

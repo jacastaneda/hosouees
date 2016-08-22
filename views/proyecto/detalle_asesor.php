@@ -50,8 +50,8 @@ use app\helpers\CrudHelper;
     <iframe src="<?=Url::home(true)?>asistencia/?idProyecto=<?=$model->IdProyecto?>" seamless border="0" width="100%" height="700px" style="border: 0px;"></iframe>
   </div>    
   <div id="comunicacion" class="tab-pane fade">
-    <h3>Menu 2</h3>
-    <p>Some content in menu 2.</p>
+    <h3>Menajes sobre el proyecto</h3>
+    <iframe src="<?=Url::home(true)?>comunicacion/?idProyecto=<?=$model->IdProyecto?>" seamless border="0" width="100%" height="700px" style="border: 0px;"></iframe>
   </div>    
 </div>
 <!--<script>

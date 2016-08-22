@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Servidor: localhost
--- Tiempo de generación: 18-08-2016 a las 22:53:03
+-- Tiempo de generación: 21-08-2016 a las 23:31:09
 -- Versión del servidor: 5.7.13-0ubuntu0.16.04.2
 -- Versión de PHP: 7.0.8-0ubuntu0.16.04.2
 
@@ -19,6 +19,32 @@ SET time_zone = "+00:00";
 --
 -- Base de datos: `hosouees`
 --
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `asistencia`
+--
+
+CREATE TABLE `asistencia` (
+  `IdAsistencia` int(11) NOT NULL,
+  `IdProyecto` int(11) NOT NULL,
+  `IdPersona` int(11) NOT NULL,
+  `Fecha` date NOT NULL,
+  `HoraEntrada` time NOT NULL,
+  `HoraSalida` time NOT NULL,
+  `CantidadHoras` float NOT NULL,
+  `Comentarios` varchar(250) DEFAULT NULL,
+  `IdUsuarioRegistro` int(11) NOT NULL,
+  `EstadoRegistro` char(1) NOT NULL DEFAULT '1'
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Volcado de datos para la tabla `asistencia`
+--
+
+INSERT INTO `asistencia` (`IdAsistencia`, `IdProyecto`, `IdPersona`, `Fecha`, `HoraEntrada`, `HoraSalida`, `CantidadHoras`, `Comentarios`, `IdUsuarioRegistro`, `EstadoRegistro`) VALUES
+(1, 15, 2, '2016-08-20', '08:20:00', '12:00:00', 4, 'acasc', 3, '1');
 
 -- --------------------------------------------------------
 
@@ -62,8 +88,11 @@ CREATE TABLE `auth_item` (
 --
 
 INSERT INTO `auth_item` (`name`, `type`, `description`, `rule_name`, `data`, `created_at`, `updated_at`) VALUES
-('Administrador', 1, 'Administrador', NULL, NULL, 1470816328, 1471536243),
+('AccederGII', 2, 'Permiso para acceder al menu GII', NULL, NULL, 1471811890, 1471811890),
+('Administrador', 1, 'Administrador', NULL, NULL, 1470816328, 1471811902),
 ('Administrador de proyecto', 1, 'Administrador de proyecto en la institucion', NULL, NULL, 1471397869, 1471397869),
+('AdministrarCatalogos', 2, 'Permiso para administrar catalogos', NULL, NULL, 1471811663, 1471811663),
+('AdministrarRBAC', 2, 'Administración de Roles y permisos', NULL, NULL, 1471811823, 1471811823),
 ('Coordinador', 1, 'Coordinador de proyectos de horas sociales', NULL, NULL, 1470880648, 1470880855),
 ('Estudiante', 1, 'Estudiante de la UEES', NULL, NULL, 1470880684, 1470880684),
 ('MantoAsignaciones', 2, 'Asignacion de permisos', NULL, NULL, 1471410730, 1471410730),
@@ -77,7 +106,8 @@ INSERT INTO `auth_item` (`name`, `type`, `description`, `rule_name`, `data`, `cr
 ('MantoRoles', 2, 'Mantenimiento de roles', NULL, NULL, 1471410686, 1471410686),
 ('MantoUniversidades', 2, 'Registrar universidades', NULL, NULL, 1471477722, 1471477722),
 ('MantoUsuarios', 2, 'Mantenimiento de Usuarios', NULL, NULL, 1471410651, 1471410651),
-('Supervisor', 1, 'Supervisor de proyectos de horas sociales', NULL, NULL, 1470880665, 1470880665);
+('Supervisor', 1, 'Supervisor de proyectos de horas sociales', NULL, NULL, 1470880665, 1470880665),
+('VerTodosProyectos', 2, 'Puede dar gestión a todos los proyectos de horas sociales', NULL, NULL, 1471709698, 1471709698);
 
 -- --------------------------------------------------------
 
@@ -95,6 +125,9 @@ CREATE TABLE `auth_item_child` (
 --
 
 INSERT INTO `auth_item_child` (`parent`, `child`) VALUES
+('Administrador', 'AccederGII'),
+('Administrador', 'AdministrarCatalogos'),
+('Administrador', 'AdministrarRBAC'),
 ('Administrador', 'MantoAsignaciones'),
 ('Administrador', 'MantoCarreras'),
 ('Administrador', 'MantoFacultades'),
@@ -106,7 +139,8 @@ INSERT INTO `auth_item_child` (`parent`, `child`) VALUES
 ('Administrador', 'MantoReglas'),
 ('Administrador', 'MantoRoles'),
 ('Administrador', 'MantoUniversidades'),
-('Administrador', 'MantoUsuarios');
+('Administrador', 'MantoUsuarios'),
+('Administrador', 'VerTodosProyectos');
 
 -- --------------------------------------------------------
 
@@ -152,13 +186,28 @@ INSERT INTO `carrera` (`IdCarrera`, `Nombre`, `NombreCorto`, `IdFacultad`, `Esta
 CREATE TABLE `comunicacion` (
   `IdComunicacion` int(11) NOT NULL,
   `IdPersonaRemitente` int(11) NOT NULL COMMENT 'ID de la taba de personas, del emisor del mensaje',
+  `IdPersonaReceptor` int(11) DEFAULT NULL,
+  `Sujeto` varchar(150) NOT NULL COMMENT 'Sujeto del mensaje',
   `Comentarios` varchar(500) NOT NULL COMMENT 'Cuerpo del mensaje',
-  `FechaHora` varchar(45) DEFAULT NULL COMMENT 'FEcha y hora del registro en la BD',
+  `FechaHora` timestamp NULL DEFAULT CURRENT_TIMESTAMP COMMENT 'FEcha y hora del registro en la BD',
+  `NombreAdjunto1` varchar(150) DEFAULT NULL,
   `RutaAdjunto1` varchar(150) DEFAULT NULL COMMENT 'Ruta en el sistema de archivos del archivo adjunto 1',
+  `NombreAdjunto2` varchar(150) DEFAULT NULL,
   `RutaAdjunto2` varchar(150) DEFAULT NULL,
   `IdProyecto` int(11) NOT NULL,
+  `IdUsuarioRegistro` int(11) NOT NULL,
   `EstadoRegistro` char(1) DEFAULT '1'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Para establecer los datos de comunicacion entre los asesores y participantes de los proyectos';
+
+--
+-- Volcado de datos para la tabla `comunicacion`
+--
+
+INSERT INTO `comunicacion` (`IdComunicacion`, `IdPersonaRemitente`, `IdPersonaReceptor`, `Sujeto`, `Comentarios`, `FechaHora`, `NombreAdjunto1`, `RutaAdjunto1`, `NombreAdjunto2`, `RutaAdjunto2`, `IdProyecto`, `IdUsuarioRegistro`, `EstadoRegistro`) VALUES
+(10, 4, NULL, 'asda', 'sdadsadasdsadasd', '2016-08-22 01:54:59', 'logo.png', 's175H9KWgdHf_3HCZDXz4ZnFrpICc552.png', NULL, NULL, 15, 3, '1'),
+(11, 4, NULL, 'Sujeto', 'COmentarios comeCOmentarios comeCOmentarios comeCOmentarios comeCOmentarios comeCOmentarios comeCOmentarios comeCOmentarios comeCOmentarios comeCOmentarios comeCOmentarios comeCOmentarios comeCOmentarios comeCOmentarios comeCOmentarios comeCOmentarios comeCOmentarios comeCOmentarios comeCOmentarios comeCOmentarios comeCOmentarios comeCOmentarios comeCOmentarios comeCOmentarios comeCOmentarios comeCOmentarios comeCOmentarios comeCOmentarios comeCOmentarios comeCOmentarios comeCOmentarios comeCOme', '2016-08-22 02:27:06', 'manual de imagen corporativa.pdf', 'si039sORrz6D-G5npUynZYwLdxN3YjVh.pdf', 'minerva-logo-vector2.png', 'JxcuKR4X06gFtZ-RCRYPc0iovcShKbGr.png', 15, 3, '1'),
+(12, 4, NULL, 'erte', 'retrertrt', '2016-08-22 04:04:19', 'direccion kenny.txt', '9RWsi0TF0ywYruWFCBh4VApyU9RdB7nB.txt', NULL, NULL, 15, 3, '1'),
+(13, 4, NULL, 'dfsdfsdfsdfsdf', 'sdfsdfsdfs', '2016-08-22 04:19:59', 'Sin título 1.pdf', '34s7YGcmy5leeQfNSLcRwaLb4Ka0gyIb.pdf', 'logo-no-text.png', 'yvm7LTo6iRlH3KyibTEQe9Z80ElI_s0M.png', 15, 3, '1');
 
 -- --------------------------------------------------------
 
@@ -217,10 +266,21 @@ CREATE TABLE `horas` (
   `IdProyecto` int(11) NOT NULL COMMENT 'Codigo de identificacion del proyecto',
   `HorasRealizadas` int(11) NOT NULL DEFAULT '0' COMMENT 'Detalle de horas realizadas',
   `HorasRestantes` int(11) NOT NULL DEFAULT '0' COMMENT 'Detalle de horas faltantes',
+  `ProyectoCompleto` char(1) DEFAULT '0' COMMENT '1-> Indica que el estudiante realizao too el proyecto, por lo tabnto obtiene todas las horas que este otorga',
   `ProyectosRealizados` varchar(150) DEFAULT NULL COMMENT 'Nombre de los proyectos realizados',
   `PersonaActiva` char(1) NOT NULL DEFAULT '0' COMMENT '1-> Indica que la asignacion de la paersona al grupo de trabajo es activo (utiliza un cupo), 0-> Inactiva',
+  `IdUsuarioRegistro` int(11) DEFAULT NULL,
   `EstadoRegistro` char(1) DEFAULT '1'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Volcado de datos para la tabla `horas`
+--
+
+INSERT INTO `horas` (`IdPersona`, `IdProyecto`, `HorasRealizadas`, `HorasRestantes`, `ProyectoCompleto`, `ProyectosRealizados`, `PersonaActiva`, `IdUsuarioRegistro`, `EstadoRegistro`) VALUES
+(1, 15, 300, 200, '0', NULL, '1', 3, '0'),
+(2, 15, 250, 250, '0', NULL, '1', 3, '1'),
+(2, 16, 0, 0, '0', NULL, '1', NULL, '1');
 
 -- --------------------------------------------------------
 
@@ -342,6 +402,7 @@ CREATE TABLE `persona` (
   `Apellidos` varchar(100) NOT NULL COMMENT 'apellidos de la persona o estudiante',
   `CarnetEstudiante` varchar(100) DEFAULT NULL COMMENT 'Carnet del estudiante',
   `CarnetEmpleado` varchar(100) DEFAULT NULL COMMENT 'Carnet del empleado',
+  `Email` varchar(50) DEFAULT NULL,
   `DUI` varchar(10) DEFAULT NULL COMMENT 'DUI de la persona o estudiante',
   `NIT` varchar(17) DEFAULT NULL COMMENT 'NIT de la persona o estudiante',
   `Direccion` varchar(10) DEFAULT NULL COMMENT 'Direccion de la persona u estudiante',
@@ -351,6 +412,7 @@ CREATE TABLE `persona` (
   `UserId` int(11) DEFAULT NULL,
   `TipoPersona` char(2) DEFAULT NULL COMMENT 'ES-> Estudiante, EM->Empleado, Ex->Externo',
   `IdCarrera` int(11) DEFAULT NULL,
+  `Elegible` char(1) NOT NULL DEFAULT '1' COMMENT '1->Indica que el estudiante es elegible para realizar horas sociales',
   `ArchivoAdjunto` varchar(150) DEFAULT NULL,
   `NombreAdjunto` varchar(150) DEFAULT NULL,
   `EstadoRegistro` char(1) DEFAULT '1'
@@ -360,11 +422,11 @@ CREATE TABLE `persona` (
 -- Volcado de datos para la tabla `persona`
 --
 
-INSERT INTO `persona` (`IdPersona`, `Nombres`, `Apellidos`, `CarnetEstudiante`, `CarnetEmpleado`, `DUI`, `NIT`, `Direccion`, `Telefono`, `Sexo`, `Cargo`, `UserId`, `TipoPersona`, `IdCarrera`, `ArchivoAdjunto`, `NombreAdjunto`, `EstadoRegistro`) VALUES
-(1, 'Juana', 'Lopez', 'LP201005', '', '09888888', '123123123', 'Mejicanos', '22766666', 'F', '', NULL, 'ES', 1, 'Tf8-EoznKqFiYqMq-AfzFkM-0IcW4F8z.png', 'avatar2.png', '1'),
-(2, 'Jose Alberto', 'Castaneda Alarcon', 'CA201010', '', '03743217-3', '', '', '', 'M', '', 2, 'ES', 1, '8ig5uv53on-b1W1DXHhmkoeDCKXcLEPz.png', 'avatar04.png', '1'),
-(3, 'ADmin', 'Admin', NULL, 'AS1010', NULL, NULL, NULL, NULL, 'M', NULL, 1, 'EM', NULL, NULL, NULL, '1'),
-(4, 'Julio Alberto', 'Flores Ayala', NULL, 'FA230000', '89789789', '98789789', 'direccion', '77889922', 'M', 'Asesor de proyectos ', 3, 'EM', NULL, 'XWtxI26xEk9CJPRDJ1l-A-Yg8IvgHkfL.jpg', 'Cover-30-Cosas-que-toda-persona-con-deficit-de-atencion-520x272.jpg', '1');
+INSERT INTO `persona` (`IdPersona`, `Nombres`, `Apellidos`, `CarnetEstudiante`, `CarnetEmpleado`, `Email`, `DUI`, `NIT`, `Direccion`, `Telefono`, `Sexo`, `Cargo`, `UserId`, `TipoPersona`, `IdCarrera`, `Elegible`, `ArchivoAdjunto`, `NombreAdjunto`, `EstadoRegistro`) VALUES
+(1, 'Juana', 'Lopez', 'LP201005', '', NULL, '09888888', '123123123', 'Mejicanos', '22766666', 'F', '', NULL, 'ES', 1, '1', 'Tf8-EoznKqFiYqMq-AfzFkM-0IcW4F8z.png', 'avatar2.png', '1'),
+(2, 'Jose Alberto', 'Castaneda Alarcon', 'CA201010', '', NULL, '03743217-3', '', '', '', 'M', '', 2, 'ES', 1, '1', '8ig5uv53on-b1W1DXHhmkoeDCKXcLEPz.png', 'avatar04.png', '1'),
+(3, 'ADmin', 'Admin', NULL, 'AS1010', NULL, NULL, NULL, NULL, NULL, 'M', NULL, 1, 'EM', NULL, '0', NULL, NULL, '1'),
+(4, 'Julio Alberto', 'Flores Ayala', NULL, 'FA230000', NULL, '89789789', '98789789', 'direccion', '77889922', 'M', 'Asesor de proyectos ', 3, 'EM', NULL, '0', 'XWtxI26xEk9CJPRDJ1l-A-Yg8IvgHkfL.jpg', 'Cover-30-Cosas-que-toda-persona-con-deficit-de-atencion-520x272.jpg', '1');
 
 -- --------------------------------------------------------
 
@@ -455,7 +517,7 @@ CREATE TABLE `user_accounts` (
 INSERT INTO `user_accounts` (`id`, `login`, `username`, `password_hash`, `auth_key`, `administrator`, `creator`, `creator_ip`, `confirm_token`, `recovery_token`, `blocked_at`, `confirmed_at`, `created_at`, `updated_at`) VALUES
 (1, 'jcastanedaalarcon@gmail.com', 'jcastaneda', '$2y$13$cyTaKC4kw99trKRHt1/JoegESCLcCLY1Uwlya5q0VLSQhKM4YST2W', '123123', 1, -2, 'Local', NULL, NULL, NULL, 1470815537, 1470815537, 1470816036),
 (2, 'mail@mail.com', 'CA201010', '$2y$13$V8EvMsI/OUrPVRMSitK6Du9Yu4HCDqH14nLmrbVeY979VL0/jl3z.', '123123', 0, 1, '127.0.0.1', NULL, NULL, NULL, 1470881021, 1470881021, -1),
-(3, 'smokcecastaneda@gmail.com', 'jflores', '$2y$13$MQM3y9KBZkR4yn8KBTNvdu31aAtt3TdO7qZKUayTRJXqMHCZXqR1O', '123123', 0, 1, '127.0.0.1', NULL, NULL, NULL, 1471568308, 1471568308, -1);
+(3, 'jose_canibal@hotmail.com', 'jflores', '$2y$13$Bg97l7hOGoz2/3ueQrtJJOpsh1umUQqZIvgg5LQa8Q0GWtbQ2UsQC', '123123', 0, 1, '127.0.0.1', NULL, NULL, NULL, 1471568308, 1471568308, 1471642727);
 
 -- --------------------------------------------------------
 
@@ -477,6 +539,15 @@ CREATE TABLE `usuario` (
 --
 -- Índices para tablas volcadas
 --
+
+--
+-- Indices de la tabla `asistencia`
+--
+ALTER TABLE `asistencia`
+  ADD PRIMARY KEY (`IdAsistencia`),
+  ADD KEY `fk_asistencia_proyecto` (`IdProyecto`),
+  ADD KEY `fk_asistencia_persona_estudiante` (`IdPersona`),
+  ADD KEY `fk_asistencia_usuario_registro` (`IdUsuarioRegistro`);
 
 --
 -- Indices de la tabla `auth_assignment`
@@ -517,7 +588,10 @@ ALTER TABLE `carrera`
 --
 ALTER TABLE `comunicacion`
   ADD PRIMARY KEY (`IdComunicacion`),
-  ADD KEY `fk_comunicacion_proyecto1_idx` (`IdProyecto`);
+  ADD KEY `fk_comunicacion_proyecto1_idx` (`IdProyecto`),
+  ADD KEY `fk_comunicacion_usuario` (`IdUsuarioRegistro`),
+  ADD KEY `fk_comunicacion_idpersonaremitente` (`IdPersonaRemitente`),
+  ADD KEY `fk_comunicacion_idpersonareceptor` (`IdPersonaReceptor`);
 
 --
 -- Indices de la tabla `estadosProyecto`
@@ -537,7 +611,8 @@ ALTER TABLE `facultad`
 --
 ALTER TABLE `horas`
   ADD PRIMARY KEY (`IdPersona`,`IdProyecto`),
-  ADD KEY `fk_horas_proyecto1_idx` (`IdProyecto`);
+  ADD KEY `fk_horas_proyecto1_idx` (`IdProyecto`),
+  ADD KEY `fk_horas_usuario_registro` (`IdUsuarioRegistro`);
 
 --
 -- Indices de la tabla `institucion`
@@ -619,6 +694,11 @@ ALTER TABLE `usuario`
 --
 
 --
+-- AUTO_INCREMENT de la tabla `asistencia`
+--
+ALTER TABLE `asistencia`
+  MODIFY `IdAsistencia` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+--
 -- AUTO_INCREMENT de la tabla `carrera`
 --
 ALTER TABLE `carrera`
@@ -627,7 +707,7 @@ ALTER TABLE `carrera`
 -- AUTO_INCREMENT de la tabla `comunicacion`
 --
 ALTER TABLE `comunicacion`
-  MODIFY `IdComunicacion` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `IdComunicacion` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
 --
 -- AUTO_INCREMENT de la tabla `estadosProyecto`
 --
@@ -688,6 +768,14 @@ ALTER TABLE `usuario`
 --
 
 --
+-- Filtros para la tabla `asistencia`
+--
+ALTER TABLE `asistencia`
+  ADD CONSTRAINT `asistencia_ibfk_1` FOREIGN KEY (`IdProyecto`) REFERENCES `proyecto` (`IdProyecto`),
+  ADD CONSTRAINT `asistencia_ibfk_2` FOREIGN KEY (`IdPersona`) REFERENCES `persona` (`IdPersona`),
+  ADD CONSTRAINT `asistencia_ibfk_3` FOREIGN KEY (`IdUsuarioRegistro`) REFERENCES `user_accounts` (`id`);
+
+--
 -- Filtros para la tabla `auth_assignment`
 --
 ALTER TABLE `auth_assignment`
@@ -716,6 +804,9 @@ ALTER TABLE `carrera`
 -- Filtros para la tabla `comunicacion`
 --
 ALTER TABLE `comunicacion`
+  ADD CONSTRAINT `comunicacion_ibfk_1` FOREIGN KEY (`IdUsuarioRegistro`) REFERENCES `user_accounts` (`id`),
+  ADD CONSTRAINT `comunicacion_ibfk_2` FOREIGN KEY (`IdPersonaRemitente`) REFERENCES `persona` (`IdPersona`),
+  ADD CONSTRAINT `comunicacion_ibfk_3` FOREIGN KEY (`IdPersonaReceptor`) REFERENCES `persona` (`IdPersona`),
   ADD CONSTRAINT `fk_comunicacion_proyecto1` FOREIGN KEY (`IdProyecto`) REFERENCES `proyecto` (`IdProyecto`) ON DELETE NO ACTION ON UPDATE NO ACTION;
 
 --
@@ -729,7 +820,8 @@ ALTER TABLE `facultad`
 --
 ALTER TABLE `horas`
   ADD CONSTRAINT `IdPersona` FOREIGN KEY (`IdPersona`) REFERENCES `persona` (`IdPersona`) ON DELETE NO ACTION ON UPDATE NO ACTION,
-  ADD CONSTRAINT `fk_horas_proyecto1` FOREIGN KEY (`IdProyecto`) REFERENCES `proyecto` (`IdProyecto`) ON DELETE NO ACTION ON UPDATE NO ACTION;
+  ADD CONSTRAINT `fk_horas_proyecto1` FOREIGN KEY (`IdProyecto`) REFERENCES `proyecto` (`IdProyecto`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  ADD CONSTRAINT `horas_ibfk_1` FOREIGN KEY (`IdUsuarioRegistro`) REFERENCES `user_accounts` (`id`);
 
 --
 -- Filtros para la tabla `perfildetalle`

@@ -69,4 +69,9 @@ class CrudHelper
         return '<span class="glyphicon glyphicon-remove text-danger"> NO</span>';        
       }
     }        
+    
+    public static function getObjectTag($url, $width, $height) 
+    {
+        return '<object width="'.$width.'" height="'.$height.'" data="'.$url.'"></object>';
+    }    
 }

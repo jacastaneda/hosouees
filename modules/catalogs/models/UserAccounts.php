@@ -22,6 +22,9 @@ use Yii;
  * @property integer $created_at
  * @property integer $updated_at
  *
+ * @property Asistencia[] $asistencias
+ * @property Comunicacion[] $comunicacions
+ * @property Horas[] $horas
  * @property Persona[] $personas
  */
 class UserAccounts extends \yii\db\ActiveRecord
@@ -75,11 +78,35 @@ class UserAccounts extends \yii\db\ActiveRecord
     /**
      * @return \yii\db\ActiveQuery
      */
+    public function getAsistencias()
+    {
+        return $this->hasMany(Asistencia::className(), ['IdUsuarioRegistro' => 'id'])->inverseOf('idUsuarioRegistro');
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getComunicacions()
+    {
+        return $this->hasMany(Comunicacion::className(), ['IdUsuarioRegistro' => 'id'])->inverseOf('idUsuarioRegistro');
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getHoras()
+    {
+        return $this->hasMany(Horas::className(), ['IdUsuarioRegistro' => 'id'])->inverseOf('idUsuarioRegistro');
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
     public function getPersonas()
     {
         return $this->hasMany(Persona::className(), ['UserId' => 'id'])->inverseOf('user');
-    }
-
+    }    
+    
     /**
      * @inheritdoc
      * @return UserAccountsQuery the active query used by this AR class.

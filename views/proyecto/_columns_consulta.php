@@ -86,22 +86,29 @@ return [
     
 //            'template' => '{importdetail} {a} {2}',
             'buttons' => [
-            'aplicar' => function ($url, $model) {
-                    if(true){
-                        return Html::buttonInput('Reservar un cupo',['class'=>'btn btn-success btn-lg','id' => 'modal-open','onclick' => 
-                            "$('#aplicarModal').modal('show');
-                            $.ajax({
-                                url : '/proyecto/reservar-cupo',
-                                data : {'id' : $model->IdProyecto},
-                                success  : function(data) {
-                                    $('.modal-body').html(data);
-                                    $('.modal-header').html('<h3 id=modalTitle>Confirmar reserva de cupo para el proyecto # $model->IdProyecto</h3>');
-                                }
-                            });
-                        "]);
-                    }
-                },
+                'aplicar' => function ($url, $model) {
+                        if(true){
+                            return Html::buttonInput('Reservar un cupo',['class'=>'btn btn-success btn-lg','id' => 'modal-open','onclick' => 
+                                "$('#aplicarModal').modal('show');
+                                $.ajax({
+                                    url : '/proyecto/reservar-cupo',
+                                    data : {'id' : $model->IdProyecto},
+                                    success  : function(data) {
+                                        $('.modal-body').html(data);
+                                        $('.modal-header').html('<h3 id=modalTitle>Confirmar reserva de cupo para el proyecto # $model->IdProyecto</h3>');
+                                    }
+                                });
+                            "]);
+                        }
+                    },
             ],
+            'visibleButtons' => [
+                'aplicar' => function ($model, $key, $index) {
+                        
+                    $persona = app\helpers\PersonaHelper::getPersona();
+                    return $persona->Elegible === '1' ? true : false;
+                 }
+            ]                            
     ],
 
 ];   
