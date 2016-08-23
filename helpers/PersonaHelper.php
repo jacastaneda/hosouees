@@ -6,7 +6,7 @@ class PersonaHelper
 {
     public static function getPersona() 
     {
-        return Persona::find()->where(['UserId' => \Yii::$app->user->identity->id])->one();
+        return Persona::findOne(['UserId' => \Yii::$app->user->identity->id]);
     }
     
     public static function getNombrePersona() 

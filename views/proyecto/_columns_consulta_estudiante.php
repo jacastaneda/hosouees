@@ -55,11 +55,11 @@ return [
         // 'class'=>'\kartik\grid\DataColumn',
         // 'attribute'=>'IdPersonaAsesor',
     // ],
-    [
-         'class'=>'\kartik\grid\DataColumn',
-         'attribute'=>'NumeroPersonas',
-         'label' => 'Personas requeridas'
-    ],
+//    [
+//         'class'=>'\kartik\grid\DataColumn',
+//         'attribute'=>'NumeroPersonas',
+//         'label' => 'Personas requeridas'
+//    ],
 //    [
 //        'class' => '\kartik\grid\DataColumn',
 //        'value' => function ($data) {
@@ -91,16 +91,16 @@ return [
         'viewOptions'=>['role'=>'modal-remote','title'=>'Ver','data-toggle'=>'tooltip'],
     
             'buttons' => [
-            'detalle' => function ($url, $model) {
+                'detalle' => function ($url, $model) {
                     if(true){
                         return Html::a('<span class="glyphicon glyphicon-file"></span>',null,['class'=>'','id' => 'modal-open','onclick' => 
                             "$('#detalleModal').modal('show');
                             $.ajax({
-                                url : '/proyecto/detalle-asesor',
+                                url : '/proyecto/detalle-estudiante',
                                 data : {'id' : $model->IdProyecto},
                                 success  : function(data) {
                                     $('.modal-body').html(data);
-                                    $('.modal-header').html('<h3 id=modalTitle>Detalle del proyecto <b>$model->NombreProyecto</b></h3>');
+                                    $('.modal-header').html('<h3 id=modalTitle>Detalle del proyecto  <b>$model->NombreProyecto</b></h3>');
                                 }
                             });
                         "]);

@@ -32,7 +32,7 @@ return [
         'class'=>'\kartik\grid\DataColumn',
         'attribute'=>'Fecha',
         'label' => 'Fecha',
-        'format' => ['date', 'php:m-d-Y']        
+        'format' => ['date', 'php:d-m-Y']        
     ],
 //    [
 //        'class' => '\kartik\grid\DataColumn',

@@ -40,7 +40,7 @@ class Horas extends \yii\db\ActiveRecord
     {
         return [
             [['IdPersona', 'IdProyecto'], 'required'],
-            [['IdPersona', 'IdProyecto'], 'unique', 'message'=> 'El estudiante ya esta registrado en este proyecto', 'targetAttribute' => ['IdPersona']],
+//            [['IdPersona', 'IdProyecto'], 'unique', 'message'=> 'El estudiante ya esta registrado en este proyecto', 'targetAttribute' => ['IdPersona']],
             [['IdPersona', 'IdProyecto', 'HorasRealizadas', 'HorasRestantes', 'IdUsuarioRegistro'], 'integer'],
             [['ProyectoCompleto', 'PersonaActiva', 'EstadoRegistro'], 'string', 'max' => 1],
             [['ProyectosRealizados'], 'string', 'max' => 150],

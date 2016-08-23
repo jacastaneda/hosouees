@@ -43,22 +43,69 @@ use app\helpers\CrudHelper;
 
   </div>
   <div id="horasobtenidas" class="tab-pane fade">
-    <h3>Registro de horas</h3>
-    <iframe src="<?=Url::home(true)?>horas/?idProyecto=<?=$model->IdProyecto?>" seamless border="0" width="100%" height="700px" style="border: 0px;"></iframe>  
+      <h3>Horas Sociales Obtenidas</h3>
+      <table class="table table-bordered table-hover">
+        <tr>
+            <th>Estudiante</th>
+            <th>Carrera</th>
+            <th>Horas sociales</th>
+            <th>Proyecto Completado</th>
+        </tr>
+      <?php 
+      foreach($model->horas as $hora)
+      {
+          ?>
+            <tr>
+                <td>
+                    <?= Html::img('@web/uploads/'.$hora->idPersona->ArchivoAdjunto, ['width'=>'50px', 'height' =>'50px', 'align'=>'center', 'class'=> 'img img-responsive img-thumbnail']);?> 
+                    <?= $hora->idPersona->CarnetEstudiante?> - <?= $hora->idPersona->NombreCompleto?>
+                </td>
+                <td><?= $hora->idPersona->idCarrera->Nombre?></td>
+                <td><?= $hora->HorasRealizadas?></td>
+                <td><?= ($hora->ProyectoCompleto == '1') ? 'SI' : 'NO'?></td>
+            <b></b>              
+            </tr>
+          <?php
+          
+      }
+      ?>      
+    </table>   
   </div>
   <div id="asistencia" class="tab-pane fade">
     <h3>Registro de asistencia</h3>
-    <iframe src="<?=Url::home(true)?>asistencia/?idProyecto=<?=$model->IdProyecto?>" seamless border="0" width="100%" height="700px" style="border: 0px;"></iframe>
+      <table class="table table-bordered table-hover">
+        <tr>
+            <th>Fecha</th>
+            <th>Hora de Entrada</th>
+            <th>Hora de Salida</th>
+            <th>Comentarios</th>
+        </tr>
+      <?php 
+      foreach($model->getAsistenciasPersona($persona->IdPersona) as $asistencia)
+      {
+          ?>
+            <tr>
+                <td><?= $asistencia->Fecha?></td>
+                <td><?= $asistencia->HoraEntrada?></td>
+                <td><?= $asistencia->HoraSalida?></td>
+                <td><?= $asistencia->Comentarios?></td>
+            <b></b>              
+            </tr>
+          <?php
+          
+      }
+      ?>  
+      </table>
   </div>    
   <div id="comunicacion" class="tab-pane fade">
     <h3>Menajes sobre el proyecto</h3>
     <iframe src="<?=Url::home(true)?>comunicacion/?idProyecto=<?=$model->IdProyecto?>" seamless border="0" width="100%" height="700px" style="border: 0px;"></iframe>
-  </div>    
+  </div>     
 </div>
 <script>
 $(function(){
     $('#ARefresh').on('click', function(){
-        $('.modal-body').fadeOut().load('/proyecto/detalle-asesor?id=<?=$model->IdProyecto?>', function(){
+        $('.modal-body').fadeOut().load('/proyecto/detalle-estudiante?id=<?=$model->IdProyecto?>', function(){
             $('.modal-body').fadeIn();
         });
     })

@@ -141,6 +141,25 @@ class ProyectoController extends Controller
         ]);
     }       
     
+   /**
+     * Lists all Proyecto models.
+     * @return mixed
+     */
+    public function actionConsultaEstudiante()
+    {    
+        $persona = PersonaHelper::getPersona();
+        
+        $searchModel = new ProyectoSearch();
+
+        $condicion = "IdProyecto IN (SELECT IdProyecto FROM horas WHERE IdPersona = $persona->IdPersona AND EstadoRegistro ='1')";
+        $dataProvider = $searchModel->search(Yii::$app->request->queryParams, $condicion);
+
+        return $this->render('consulta_estudiante', [
+            'searchModel' => $searchModel,
+            'dataProvider' => $dataProvider,
+        ]);
+    }          
+    
     /**
      * Lists all Proyecto models.
      * @return mixed
@@ -157,6 +176,22 @@ class ProyectoController extends Controller
     }    
     
     /**
+     * Lists all Proyecto models.
+     * @return mixed
+     */
+    public function actionDetalleEstudiante($id)
+    {    
+        $persona = PersonaHelper::getPersona();
+        $model = $this->findModel($id);
+           
+        return $this->renderAjax('detalle_estudiante', [
+            'model' => $model,
+            'persona' =>$persona
+        ]);
+    }    
+        
+    
+    /**
      * Displays a single Proyecto model.
      * @param integer $id
      * @return mixed
@@ -171,8 +206,8 @@ class ProyectoController extends Controller
                     'content'=>$this->renderAjax('view', [
                         'model' => $this->findModel($id),
                     ]),
-                    'footer'=> Html::button('Close',['class'=>'btn btn-default pull-left','data-dismiss'=>"modal"]).
-                            Html::a('Edit',['update','id'=>$id],['class'=>'btn btn-primary','role'=>'modal-remote'])
+//                    'footer'=> Html::button('Close',['class'=>'btn btn-default pull-left','data-dismiss'=>"modal"]).
+//                            Html::a('Edit',['update','id'=>$id],['class'=>'btn btn-primary','role'=>'modal-remote'])
                 ];    
         }else{
             return $this->render('view', [
