@@ -14,8 +14,8 @@ $authManager = Yii::$app->authManager;
         <thead>
             <tr>
                 <th style="width:1px"></th>
-                <th style="width:150px">Name</th>
-                <th>Description</th>
+                <th style="width:150px">Rol</th>
+                <th>Descripción</th>
             </tr>
         <tbody>            
             <?php foreach ($authManager->getRoles() as $role): ?>

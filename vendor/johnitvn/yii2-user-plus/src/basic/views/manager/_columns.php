@@ -83,7 +83,7 @@ $columns = [
                             'data-confirm' => false, 'data-method' => false, // for overide yii data api
                             'data-request-method' => 'post',
                             'data-confirm-title' => Yii::t('user', 'Are you sure?'),
-                            'data-confirm-message' => Yii::t('user', 'Are you sure you want to unblock this user?'),
+                            'data-confirm-message' => Yii::t('user', 'Are you sure you want to block this user?'),
                 ]);
             }
         },
@@ -107,7 +107,7 @@ $columns[] =   [
                         'data-confirm' => false, 'data-method' => false, // for overide yii data api
                         'data-request-method' => 'post',
                         'data-confirm-title' => Yii::t('user', 'Are you sure?'),
-                        'data-confirm-message' => Yii::t('user', 'Are you sure you want to unblock this user?'),
+                        'data-confirm-message' => 'Está seguro de otorgar el super usuario?',
             ]);
         } else {
             return Html::a(Yii::t('user', 'Remove SU'), ['toggle-superuser', 'id' => $model->id], [
@@ -116,7 +116,7 @@ $columns[] =   [
                         'data-confirm' => false, 'data-method' => false, // for overide yii data api
                         'data-request-method' => 'post',
                         'data-confirm-title' => Yii::t('user', 'Are you sure?'),
-                        'data-confirm-message' => Yii::t('user', 'Are you sure you want to unblock this user?'),
+                        'data-confirm-message' => Yii::t('user', 'Está seguro de quitar e privilegio de super usuario?'),
             ]);
         }
     },

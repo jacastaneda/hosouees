@@ -87,7 +87,7 @@ class RoleController extends Controller {
             Yii::$app->response->format = Response::FORMAT_JSON;
             if ($request->isGet) {
                 return [
-                    'title' => Yii::t('rbac', "Create new {0}", ["Role"]),
+                    'title' => Yii::t('rbac', "Crear nuevo Rol", ["Role"]),
                     'content' => $this->renderPartial('create', [
                         'model' => $model,
                     ]),
@@ -98,14 +98,14 @@ class RoleController extends Controller {
 //                \johnitvn\userplus\Helper::dump($model);
                 return [
                     'forceReload' => 'true',
-                    'title' => Yii::t('rbac', "Create new {0}", ["Role"]),
+                    'title' => Yii::t('rbac', "Crear nuevo Rol", ["Role"]),
                     'content' => '<span class="text-success">' . Yii::t('rbac', "Have been create new {0} success", ["Role"]) . '</span>',
                     'footer' => Html::button(Yii::t('rbac', 'Close'), ['class' => 'btn btn-default pull-left', 'data-dismiss' => "modal"]) .
                     Html::a(Yii::t('rbac', 'Create More'), ['create'], ['class' => 'btn btn-primary', 'role' => 'modal-remote'])
                 ];
             } else {
                 return [
-                    'title' => Yii::t('rbac', "Create new {0}", ["Role"]),
+                    'title' => Yii::t('rbac', "Crear nuevo Rol", ["Role"]),
                     'content' => $this->renderPartial('create', [
                         'model' => $model,
                     ]),
@@ -145,7 +145,7 @@ class RoleController extends Controller {
             Yii::$app->response->format = Response::FORMAT_JSON;
             if ($request->isGet) {
                 return [
-                    'title' => Yii::t('rbac', "Update {0}", ['"' . $name . '" Role']),
+                    'title' => Yii::t('rbac', "Actualizar el Rol {0}", ['"' . $name . '"']),
                     'content' => $this->renderPartial('update', [
                         'model' => $this->findModel($name),
                     ]),
@@ -164,7 +164,7 @@ class RoleController extends Controller {
                 ];
             } else {
                 return [
-                    'title' => Yii::t('rbac', "Update {0}", ['"' . $name . '" Role']),
+                    'title' => Yii::t('rbac', "Actualizar el Rol {0}", ['"' . $name . '"']),
                     'content' => $this->renderPartial('update', [
                         'model' => $model,
                     ]),

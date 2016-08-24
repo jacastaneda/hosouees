@@ -87,7 +87,7 @@ class PermissionController extends Controller {
             Yii::$app->response->format = Response::FORMAT_JSON;
             if ($request->isGet) {
                 return [
-                    'title' => Yii::t('rbac', "Create new {0}", ["Permission"]),
+                    'title' => Yii::t('rbac', "Crear nuevo Permiso", ["Permission"]),
                     'content' => $this->renderPartial('create', [
                         'model' => $model,
                     ]),
@@ -97,14 +97,14 @@ class PermissionController extends Controller {
             } else if ($model->load($request->post()) && $model->save()) {
                 return [
                     'forceReload' => 'true',
-                    'title' => Yii::t('rbac', "Create new {0}", ["Permission"]),
+                    'title' => Yii::t('rbac', "Crear nuevo Permiso", ["Permission"]),
                     'content' => '<span class="text-success">' . Yii::t('rbac', "Have been create new {0} success", ["Permission"]) . '</span>',
                     'footer' => Html::button(Yii::t('rbac', 'Close'), ['class' => 'btn btn-default pull-left', 'data-dismiss' => "modal"]) .
                     Html::a(Yii::t('rbac', 'Create More'), ['create'], ['class' => 'btn btn-primary', 'role' => 'modal-remote'])
                 ];
             } else {
                 return [
-                    'title' => Yii::t('rbac', "Create new {0}", ["Permission"]),
+                    'title' => Yii::t('rbac', "Crear nuevo Permiso", ["Permission"]),
                     'content' => $this->renderPartial('create', [
                         'model' => $model,
                     ]),
@@ -144,7 +144,7 @@ class PermissionController extends Controller {
             Yii::$app->response->format = Response::FORMAT_JSON;
             if ($request->isGet) {
                 return [
-                    'title' => Yii::t('rbac', "Update {0}", ['"' . $name . '" Permission']),
+                    'title' => Yii::t('rbac', "Actualizar el Permiso", ['"' . $name . '"']),
                     'content' => $this->renderPartial('update', [
                         'model' => $this->findModel($name),
                     ]),
@@ -163,7 +163,7 @@ class PermissionController extends Controller {
                 ];
             } else {
                 return [
-                    'title' => Yii::t('rbac', "Update {0}", ['"' . $name . '" Permission']),
+                    'title' => Yii::t('rbac', "Actualizar el Permiso", ['"' . $name . '"']),
                     'content' => $this->renderPartial('update', [
                         'model' => $model,
                     ]),

@@ -23,9 +23,9 @@ CrudAsset::register($this);
             'toolbar'=> [
                 ['content'=>
                     Html::a('<i class="glyphicon glyphicon-plus"></i>', ['create'],
-                    ['role'=>'modal-remote','title'=> \Yii::t("user","Create new Users"),'class'=>'btn btn-default']).
+                    ['role'=>'modal-remote','title'=> 'Crear un nuevo usuario','class'=>'btn btn-default']).
                     Html::a('<i class="glyphicon glyphicon-repeat"></i>', [''],
-                    ['data-pjax'=>1, 'class'=>'btn btn-default', 'title'=>'Reset Grid']).
+                    ['data-pjax'=>1, 'class'=>'btn btn-default', 'title'=>'Refrescar']).
                     '{toggleData}'.
                     '{export}'
                 ],
@@ -35,7 +35,7 @@ CrudAsset::register($this);
             'responsive' => true,          
             'panel' => [
                 'type' => 'primary', 
-                'heading' => '<i class="glyphicon glyphicon-list"></i> Users listing',
+                'heading' => '<i class="glyphicon glyphicon-list"></i> Listado de usuarios',
                 'before'=>'<em>* '.\Yii::t("user","Resize table columns just like a spreadsheet by dragging the column edges.").'</em>',
                 'after'=>BulkButtonWidget::widget([
                             'buttons'=> Html::a('<i class="glyphicon glyphicon-trash"></i>&nbsp; '.\Yii::t('user', 'Delete all'),

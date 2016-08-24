@@ -71,12 +71,12 @@ class ManagerController extends WebController {
         if ($request->isAjax) {
             Yii::$app->response->format = Response::FORMAT_JSON;
             return [
-                'title' => "User #" . $id,
+                'title' => "Usuario #" . $id,
                 'content' => $this->renderPartial('view', [
                     'model' => $this->findModel($id),
                 ]),
-                'footer' => Html::button('Close', ['class' => 'btn btn-default pull-left', 'data-dismiss' => "modal"]) .
-                Html::a('Edit', ['update', 'id' => $id], ['class' => 'btn btn-primary', 'role' => 'modal-remote'])
+                'footer' => Html::button('Cerrar', ['class' => 'btn btn-default pull-left', 'data-dismiss' => "modal"]) .
+                Html::a('Editar', ['update', 'id' => $id], ['class' => 'btn btn-primary', 'role' => 'modal-remote'])
             ];
         } else {
             return $this->render('view', [
@@ -102,29 +102,29 @@ class ManagerController extends WebController {
             Yii::$app->response->format = Response::FORMAT_JSON;
             if ($request->isGet) {
                 return [
-                    'title' => "Create new User",
+                    'title' => "Crear nuevo usuario",
                     'content' => $this->renderPartial('create', [
                         'model' => $model,
                     ]),
-                    'footer' => Html::button('Close', ['class' => 'btn btn-default pull-left', 'data-dismiss' => "modal"]) .
-                    Html::button('Save', ['class' => 'btn btn-primary', 'type' => "submit"])
+                    'footer' => Html::button('Cerrar', ['class' => 'btn btn-default pull-left', 'data-dismiss' => "modal"]) .
+                    Html::button('Guardar', ['class' => 'btn btn-primary', 'type' => "submit"])
                 ];
             } else if ($model->load($request->post()) && $model->create(Yii::$app->user->getId())) {
                 return [
                     'forceReload' => 'true',
-                    'title' => "Create new User",
-                    'content' => '<span class="text-success">Create User success</span>',
-                    'footer' => Html::button('Close', ['class' => 'btn btn-default pull-left', 'data-dismiss' => "modal"]) .
-                    Html::a('Create More', ['create'], ['class' => 'btn btn-primary', 'role' => 'modal-remote'])
+                    'title' => "Crear nuevo usuario",
+                    'content' => '<span class="text-success">Usuario creado exitosamente</span>',
+                    'footer' => Html::button('Cerrar', ['class' => 'btn btn-default pull-left', 'data-dismiss' => "modal"]) .
+                    Html::a('Crear mas', ['create'], ['class' => 'btn btn-primary', 'role' => 'modal-remote'])
                 ];
             } else {
                 return [
-                    'title' => "Create new User",
+                    'title' => "Crear nuevo usuario",
                     'content' => $this->renderPartial('create', [
                         'model' => $model,
                     ]),
-                    'footer' => Html::button('Close', ['class' => 'btn btn-default pull-left', 'data-dismiss' => "modal"]) .
-                    Html::button('Save', ['class' => 'btn btn-primary', 'type' => "submit"])
+                    'footer' => Html::button('Cerrar', ['class' => 'btn btn-default pull-left', 'data-dismiss' => "modal"]) .
+                    Html::button('Guardar', ['class' => 'btn btn-primary', 'type' => "submit"])
                 ];
             }
         } else {
@@ -160,12 +160,12 @@ class ManagerController extends WebController {
             Yii::$app->response->format = Response::FORMAT_JSON;
             if ($request->isGet) {
                 return [
-                    'title' => "Update User #" . $id,
+                    'title' => "Editar usuario #" . $id,
                     'content' => $this->renderPartial('update', [
                         'model' => $this->findModel($id),
                     ]),
-                    'footer' => Html::button('Close', ['class' => 'btn btn-default pull-left', 'data-dismiss' => "modal"]) .
-                    Html::button('Save', ['class' => 'btn btn-primary', 'type' => "submit"])
+                    'footer' => Html::button('Cerrar', ['class' => 'btn btn-default pull-left', 'data-dismiss' => "modal"]) .
+                    Html::button('Guardar', ['class' => 'btn btn-primary', 'type' => "submit"])
                 ];
             } else if ($model->load($request->post()) && $model->save()) {
                 return [
@@ -174,17 +174,17 @@ class ManagerController extends WebController {
                     'content' => $this->renderPartial('view', [
                         'model' => $this->findModel($id),
                     ]),
-                    'footer' => Html::button('Close', ['class' => 'btn btn-default pull-left', 'data-dismiss' => "modal"]) .
-                    Html::a('Edit', ['update', 'id' => $id], ['class' => 'btn btn-primary', 'role' => 'modal-remote'])
+                    'footer' => Html::button('Cerrar', ['class' => 'btn btn-default pull-left', 'data-dismiss' => "modal"]) .
+                    Html::a('Editar', ['update', 'id' => $id], ['class' => 'btn btn-primary', 'role' => 'modal-remote'])
                 ];
             } else {
                 return [
-                    'title' => "Update User #" . $id,
+                    'title' => "Editar usuario #" . $id,
                     'content' => $this->renderPartial('update', [
                         'model' => $this->findModel($id),
                     ]),
-                    'footer' => Html::button('Close', ['class' => 'btn btn-default pull-left', 'data-dismiss' => "modal"]) .
-                    Html::button('Save', ['class' => 'btn btn-primary', 'type' => "submit"])
+                    'footer' => Html::button('Cerrar', ['class' => 'btn btn-default pull-left', 'data-dismiss' => "modal"]) .
+                    Html::button('Guardar', ['class' => 'btn btn-primary', 'type' => "submit"])
                 ];
             }
         } else {
@@ -214,9 +214,9 @@ class ManagerController extends WebController {
             if ($request->isAjax) {
                 Yii::$app->response->format = Response::FORMAT_JSON;
                 return [
-                    'title' => 'An error occurred',
-                    'content' => '<span class="text-danger">You can not delete yourself</span>',
-                    'footer' => Html::button('Close', ['class' => 'btn btn-default pull-left', 'data-dismiss' => "modal"])
+                    'title' => 'Ha ocurrido una excepcion',
+                    'content' => '<span class="text-danger">No puede borrar su propio usuario</span>',
+                    'footer' => Html::button('Cerrar', ['class' => 'btn btn-default pull-left', 'data-dismiss' => "modal"])
                 ];
             } else {
                 return $this->redirect(['index']);
@@ -248,9 +248,9 @@ class ManagerController extends WebController {
 
         if (Yii::$app->user->getId() == $id) {
             return [
-                'title' => 'An error occurred',
-                'content' => '<span class="text-danger">You can not block yourself</span>',
-                'footer' => Html::button('Close', ['class' => 'btn btn-default pull-left', 'data-dismiss' => "modal"])
+                'title' => 'Ha ocurrido una excepción',
+                'content' => '<span class="text-danger">No puede bloquear su propio usuario</span>',
+                'footer' => Html::button('Cerrar', ['class' => 'btn btn-default pull-left', 'data-dismiss' => "modal"])
             ];
         }
 
@@ -259,9 +259,9 @@ class ManagerController extends WebController {
             return ['forceClose' => true, 'forceReload' => true];
         } else {
             return [
-                'title' => 'An error occurred',
+                'title' => 'Ha ocurrido una excepción',
                 'content' => '<span class="text-danger">Can not toggle block this user. Getting unknow error</span>',
-                'footer' => Html::button('Close', ['class' => 'btn btn-default pull-left', 'data-dismiss' => "modal"])
+                'footer' => Html::button('Cerrar', ['class' => 'btn btn-default pull-left', 'data-dismiss' => "modal"])
             ];
             return;
         }
@@ -275,9 +275,9 @@ class ManagerController extends WebController {
 
         if (Yii::$app->user->getId() == $id) {
             return [
-                'title' => 'An error occurred',
-                'content' => '<span class="text-danger">You can not disable superuser of yourself</span>',
-                'footer' => Html::button('Close', ['class' => 'btn btn-default pull-left', 'data-dismiss' => "modal"])
+                'title' => 'Ha ocurrido una excepción',
+                'content' => '<span class="text-danger">No puede deshabilitar su super usuario</span>',
+                'footer' => Html::button('Cerrar', ['class' => 'btn btn-default pull-left', 'data-dismiss' => "modal"])
             ];
         }
 
@@ -286,9 +286,9 @@ class ManagerController extends WebController {
             return ['forceClose' => true, 'forceReload' => true];
         } else {
             return [
-                'title' => 'An error occurred',
-                'content' => '<span class="text-danger">Can not toggle block this user. Getting unknow error</span>',
-                'footer' => Html::button('Close', ['class' => 'btn btn-default pull-left', 'data-dismiss' => "modal"])
+                'title' => 'Ha ocurrido una excepción',
+                'content' => '<span class="text-danger">No se puede cambiar el estado de bloqueo de este usuario</span>',
+                'footer' => Html::button('Cerrar', ['class' => 'btn btn-default pull-left', 'data-dismiss' => "modal"])
             ];
         }
     }
@@ -308,9 +308,9 @@ class ManagerController extends WebController {
             if ($request->isAjax) {
                 Yii::$app->response->format = Response::FORMAT_JSON;
                 return [
-                    'title' => 'An error occurred',
-                    'content' => '<span class="text-danger">You can not delete yourself. Please get our your account in your selection</span>',
-                    'footer' => Html::button('Close', ['class' => 'btn btn-default pull-left', 'data-dismiss' => "modal"])
+                    'title' => 'Ha ocurrido una excepción',
+                    'content' => '<span class="text-danger">No puede eliminar su propio usuario</span>',
+                    'footer' => Html::button('Cerrar', ['class' => 'btn btn-default pull-left', 'data-dismiss' => "modal"])
                 ];
             } else {
                 return $this->redirect(['index']);
@@ -346,9 +346,9 @@ class ManagerController extends WebController {
             if ($request->isAjax) {
                 Yii::$app->response->format = Response::FORMAT_JSON;
                 return [
-                    'title' => 'An error occurred',
-                    'content' => '<span class="text-danger">You can not block yourself. Please get our your account in your selection</span>',
-                    'footer' => Html::button('Close', ['class' => 'btn btn-default pull-left', 'data-dismiss' => "modal"])
+                    'title' => 'Ha ocurrido una excepción',
+                    'content' => '<span class="text-danger">No puede eliminar su propio usuario, quite de la selección a su usuario</span>',
+                    'footer' => Html::button('Cerrar', ['class' => 'btn btn-default pull-left', 'data-dismiss' => "modal"])
                 ];
             } else {
                 return $this->redirect(['index']);
