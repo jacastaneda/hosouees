@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Servidor: localhost
--- Tiempo de generación: 22-08-2016 a las 22:42:32
+-- Tiempo de generación: 23-08-2016 a las 21:38:59
 -- Versión del servidor: 5.7.13-0ubuntu0.16.04.2
 -- Versión de PHP: 7.0.8-0ubuntu0.16.04.2
 
@@ -66,7 +66,8 @@ CREATE TABLE `auth_assignment` (
 --
 
 INSERT INTO `auth_assignment` (`item_name`, `user_id`, `created_at`) VALUES
-('Administrador', '1', 1471397326),
+('Administrador', '1', 1471995726),
+('Coordinador', '5', 1471995304),
 ('Estudiante', '2', 1470881064),
 ('Estudiante', '4', 1471920745),
 ('Supervisor', '3', 1471568351);
@@ -100,7 +101,7 @@ INSERT INTO `auth_item` (`name`, `type`, `description`, `rule_name`, `data`, `cr
 ('ConsultaAsesor', 2, 'Consulta de proyectos  del asesor', NULL, NULL, 1471915157, 1471915157),
 ('ConsultaEstudiante', 2, 'Consulta de proyectos de horas sociales del estudiante', NULL, NULL, 1471915106, 1471915106),
 ('ConsultaProyectosAbiertos', 2, 'Consulta de los proyectos de horas sociales abiertos', NULL, NULL, 1471915217, 1471915217),
-('Coordinador', 1, 'Coordinador de proyectos de horas sociales', NULL, NULL, 1470880648, 1471915271),
+('Coordinador', 1, 'Coordinador de proyectos de horas sociales', NULL, NULL, 1470880648, 1471995801),
 ('Estudiante', 1, 'Estudiante de la UEES', NULL, NULL, 1470880684, 1471915230),
 ('MantoAsignaciones', 2, 'Asignacion de permisos', NULL, NULL, 1471410730, 1471410730),
 ('MantoCarreras', 2, 'Acceso al mantenimiento de carreras', NULL, NULL, 1471477751, 1471477751),
@@ -153,7 +154,8 @@ INSERT INTO `auth_item_child` (`parent`, `child`) VALUES
 ('Administrador', 'MantoRoles'),
 ('Administrador', 'MantoUniversidades'),
 ('Administrador', 'MantoUsuarios'),
-('Administrador', 'VerTodosProyectos');
+('Administrador', 'VerTodosProyectos'),
+('Coordinador', 'VerTodosProyectos');
 
 -- --------------------------------------------------------
 
@@ -442,7 +444,8 @@ INSERT INTO `persona` (`IdPersona`, `Nombres`, `Apellidos`, `CarnetEstudiante`, 
 (1, 'Juana', 'Lopez', 'LP201005', '', NULL, '09888888', '123123123', 'Mejicanos', '22766666', 'F', '', 4, 'ES', 1, '1', 'Tf8-EoznKqFiYqMq-AfzFkM-0IcW4F8z.png', 'avatar2.png', '1'),
 (2, 'Jose Alberto', 'Castaneda Alarcon', 'CA201010', '', NULL, '03743217-3', '', '', '', 'M', '', 2, 'ES', 1, '1', '8ig5uv53on-b1W1DXHhmkoeDCKXcLEPz.png', 'avatar04.png', '1'),
 (3, 'ADmin', 'Admin', NULL, 'AS1010', NULL, NULL, NULL, NULL, NULL, 'M', NULL, 1, 'EM', NULL, '0', NULL, NULL, '1'),
-(4, 'Julio Alberto', 'Flores Ayala', NULL, 'FA230000', NULL, '89789789', '98789789', 'direccion', '77889922', 'M', 'Asesor de proyectos ', 3, 'EM', NULL, '0', 'XWtxI26xEk9CJPRDJ1l-A-Yg8IvgHkfL.jpg', 'Cover-30-Cosas-que-toda-persona-con-deficit-de-atencion-520x272.jpg', '1');
+(4, 'Julio Alberto', 'Flores Ayala', NULL, 'FA230000', NULL, '89789789', '98789789', 'direccion', '77889922', 'M', 'Asesor de proyectos ', 3, 'EM', NULL, '0', 'XWtxI26xEk9CJPRDJ1l-A-Yg8IvgHkfL.jpg', 'Cover-30-Cosas-que-toda-persona-con-deficit-de-atencion-520x272.jpg', '1'),
+(5, 'Napoleón', 'Gochez', NULL, 'GC998877', NULL, '231231', '2313', 'asdad', '123123', 'M', 'Coordinador de proyectos', 5, 'EM', NULL, '1', '0u7LHkyKnBECzqZV1lkDdVgn_fBBKXfH.png', 'avatar.png', '1');
 
 -- --------------------------------------------------------
 
@@ -531,10 +534,11 @@ CREATE TABLE `user_accounts` (
 --
 
 INSERT INTO `user_accounts` (`id`, `login`, `username`, `password_hash`, `auth_key`, `administrator`, `creator`, `creator_ip`, `confirm_token`, `recovery_token`, `blocked_at`, `confirmed_at`, `created_at`, `updated_at`) VALUES
-(1, 'jcastanedaalarcon@gmail.com', 'jcastaneda', '$2y$13$cyTaKC4kw99trKRHt1/JoegESCLcCLY1Uwlya5q0VLSQhKM4YST2W', '123123', 1, -2, 'Local', NULL, NULL, NULL, 1470815537, 1470815537, 1470816036),
-(2, 'mail@mail.com', 'CA201010', '$2y$13$V8EvMsI/OUrPVRMSitK6Du9Yu4HCDqH14nLmrbVeY979VL0/jl3z.', '123123', 0, 1, '127.0.0.1', NULL, NULL, NULL, 1470881021, 1470881021, -1),
+(1, 'jcastanedaalarcon@gmail.com', 'jcastaneda', '$2y$13$sJqJRrr0WWEswcOljT/9G.YUeUo6tymMtIrT6wy70b3NVCV0f2tYu', '123123', 1, -2, 'Local', NULL, NULL, NULL, 1470815537, 1470815537, 1471995740),
+(2, 'mail@mail.com', 'CA201010', '$2y$13$KHE1jNuETr7L12y1Wlsw.OpBKNL9X8aK7wmfaWhash4QpAnjLbLwO', '123123', 0, 1, '127.0.0.1', NULL, NULL, NULL, 1470881021, 1470881021, 1471993705),
 (3, 'jose_canibal@hotmail.com', 'jflores', '$2y$13$Bg97l7hOGoz2/3ueQrtJJOpsh1umUQqZIvgg5LQa8Q0GWtbQ2UsQC', '123123', 0, 1, '127.0.0.1', NULL, NULL, NULL, 1471568308, 1471568308, 1471642727),
-(4, 'asdasd@gmail.com', 'LP201005', '$2y$13$CWAJrGCh.dsX9r7crFakCeu5XXbtElWTM5cK6Ol8g4qbZYvJ0/.ha', '123123', 0, 1, '127.0.0.1', NULL, NULL, NULL, 1471920692, 1471920692, -1);
+(4, 'asdasd@gmail.com', 'LP201005', '$2y$13$CWAJrGCh.dsX9r7crFakCeu5XXbtElWTM5cK6Ol8g4qbZYvJ0/.ha', '123123', 0, 1, '127.0.0.1', NULL, NULL, NULL, 1471920692, 1471920692, -1),
+(5, 'smokecastaneda@gmail.com', 'ngochez', '$2y$13$2oQsyvvNzd6T0..cil.c9e2Pxj.DA1mHdqwJIHinrIXy5lVxa8KX2', '123123', 0, 1, '127.0.0.1', NULL, NULL, NULL, 1471993769, 1471993769, 1471995781);
 
 -- --------------------------------------------------------
 
@@ -759,7 +763,7 @@ ALTER TABLE `perfil`
 -- AUTO_INCREMENT de la tabla `persona`
 --
 ALTER TABLE `persona`
-  MODIFY `IdPersona` int(11) NOT NULL AUTO_INCREMENT COMMENT 'Codigo de identificacion de la persona o estudiante', AUTO_INCREMENT=5;
+  MODIFY `IdPersona` int(11) NOT NULL AUTO_INCREMENT COMMENT 'Codigo de identificacion de la persona o estudiante', AUTO_INCREMENT=6;
 --
 -- AUTO_INCREMENT de la tabla `proyecto`
 --
@@ -774,7 +778,7 @@ ALTER TABLE `universidad`
 -- AUTO_INCREMENT de la tabla `user_accounts`
 --
 ALTER TABLE `user_accounts`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 --
 -- AUTO_INCREMENT de la tabla `usuario`
 --
