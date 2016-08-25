@@ -114,6 +114,15 @@ class Proyecto extends \yii\db\ActiveRecord
     {
         return $this->hasMany(Horas::className(), ['IdProyecto' => 'IdProyecto'])->inverseOf('idProyecto');
     }
+    
+    /**
+     */
+    public function getHorasIdPersona($idPersona)
+    {
+        return $this->getHoras()->where(['IdPersona' => $idPersona, 'EstadoRegistro' =>'1'])->one();
+    }
+
+    
     /**
      * @return \yii\db\ActiveQuery
      */

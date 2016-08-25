@@ -24,13 +24,15 @@ use yii\helpers\Html;
 //                    ['label' => 'Menu', 'options' => ['class' => 'text-info']],
 //                    ['label' => 'Gii', 'icon' => 'fa fa-file-code-o', 'url' => ['/gii']],
 //                    ['label' => 'Debug', 'icon' => 'fa fa-dashboard', 'url' => ['/debug']],
-                    ['label' => 'Login', 'url' => ['site/login'], 'visible' => Yii::$app->user->isGuest],
-                    ['label' => 'Proyectos abiertos', 'url' => ['/proyecto/consulta'], 'visible' => Yii::$app->user->can('ConsultaProyectosAbiertos')],
-                    ['label' => 'Proyectos asesorados', 'url' => ['/proyecto/consulta-asesor'], 'visible' => Yii::$app->user->can('ConsultaAsesor')],
-                    ['label' => 'Mis proyectos', 'url' => ['/proyecto/consulta-estudiante'], 'visible' => Yii::$app->user->can('ConsultaEstudiante')],
+//                    ['label' => 'Login', 'url' => ['site/login'], 'visible' => Yii::$app->user->can('ConfigurarParametros')],
+                    ['label' => 'Parámetros', 'icon' => 'fa fa-gears fa-2x', 'url' => ['/configuracion'], 'visible' => Yii::$app->user->can('ConfigurarParametros')],
+                    ['label' => 'Proyectos abiertos', 'icon' => 'fa fa-flag fa-2x', 'url' => ['/proyecto/consulta'], 'visible' => Yii::$app->user->can('ConsultaProyectosAbiertos')],
+                    ['label' => 'Proyectos asesorados', 'icon' => 'fa fa-users fa-2x', 'url' => ['/proyecto/consulta-asesor'], 'visible' => Yii::$app->user->can('ConsultaAsesor')],
+                    ['label' => 'Mis proyectos', 'icon' => 'fa fa-user fa-2x', 'url' => ['/proyecto/consulta-estudiante'], 'visible' => Yii::$app->user->can('ConsultaEstudiante')],
+                    ['label' => 'Descarga de formularios', 'icon' => 'fa fa-file fa-2x', 'url' => ['/formulario/descarga'], 'visible' => Yii::$app->user->can('ConsultaEstudiante')],
                     [
                         'label' => 'Usuarios y permisos',
-                        'icon' => 'fa fa-user',
+                        'icon' => 'fa fa-user fa-2x',
                         'url' => '#',
                         'visible'=> Yii::$app->user->can('AdministrarRBAC'),
                         'items' => [
@@ -43,7 +45,7 @@ use yii\helpers\Html;
                     ],        
                     [
                         'label' => 'Catálogos',
-                        'icon' => 'fa fa-navicon',
+                        'icon' => 'fa fa-navicon fa-2x',
                         'url' => '#',
                         'visible'=> Yii::$app->user->can('AdministrarCatalogos'),
                         'items' => [

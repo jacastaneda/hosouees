@@ -2,6 +2,11 @@
 use yii\helpers\Html;
 use yii\widgets\ActiveForm;
 use app\helpers\CrudHelper;
+use yii\helpers\ArrayHelper;
+use app\modules\catalogs\models\Persona;
+
+$personas = ArrayHelper::map(Persona::find()->where(['EstadoRegistro' => '1', 'TipoPersona'=>'ES', 'Elegible' => '1'])->all(), 'IdPersona', 'NombreCompleto');
+
 /* @var $this yii\web\View */
 /* @var $model app\models\Horas */
 /* @var $form yii\widgets\ActiveForm */
@@ -10,7 +15,11 @@ use app\helpers\CrudHelper;
 <div class="horas-form">
 
     <?php $form = ActiveForm::begin(); ?>
-
+    
+    <?= $form->field($model, 'IdPersona')->hiddenInput(['value' => $model->IdPersona])->label(false) ?>
+    
+    <?= $form->field($model, 'IdProyecto')->hiddenInput(['value' => $model->IdProyecto])->label(false) ?>
+        
     <?= $form->field($model, 'HorasRealizadas')->textInput() ?>
 
     <?= $form->field($model, 'HorasRestantes')->textInput() ?>

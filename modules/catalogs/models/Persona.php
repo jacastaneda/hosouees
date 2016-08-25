@@ -133,6 +133,14 @@ class Persona extends \yii\db\ActiveRecord
     {
         return $this->hasMany(Horas::className(), ['IdPersona' => 'IdPersona'])->inverseOf('idPersona');
     }
+    
+    /**
+     * Obtiene la cantidad de horas sociales acumuladas por el estudiante en todos sus proyectos
+     */
+    public function getCantidadHorasSociales()
+    {
+        return $this->getHoras()->where(['EstadoRegistro'=>'1'])->sum('HorasRealizadas');
+    }    
 
     /**
      * @return \yii\db\ActiveQuery

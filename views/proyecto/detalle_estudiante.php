@@ -52,8 +52,9 @@ use app\helpers\CrudHelper;
             <th>Proyecto Completado</th>
         </tr>
       <?php 
-      foreach($model->horas as $hora)
-      {
+      $hora = $model->getHorasIdPersona($persona->IdPersona);
+//      foreach($model->horas as $hora)
+//      {
           ?>
             <tr>
                 <td>
@@ -67,7 +68,7 @@ use app\helpers\CrudHelper;
             </tr>
           <?php
           
-      }
+//      }
       ?>      
     </table>   
   </div>

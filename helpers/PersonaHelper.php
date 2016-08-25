@@ -9,6 +9,11 @@ class PersonaHelper
         return Persona::findOne(['UserId' => \Yii::$app->user->identity->id]);
     }
     
+    public static function getPersonaById($idPersona) 
+    {
+        return Persona::findOne(['IdPersona' => $idPersona]);
+    }    
+    
     public static function getNombrePersona() 
     {
         $p = Persona::find()->where(['UserId' => \Yii::$app->user->identity->id])->one();

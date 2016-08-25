@@ -6,6 +6,8 @@ use Yii;
 use \app\modules\catalogs\models\Persona;
 use \app\modules\catalogs\models\Proyecto;
 use \app\modules\catalogs\models\UserAccounts;
+use app\components\HorasAlumnoValidator;
+use app\components\AlumnoProyectoValidator;
 /**
  * This is the model class for table "horas".
  *
@@ -39,7 +41,9 @@ class Horas extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['IdPersona', 'IdProyecto'], 'required'],
+            [['IdPersona', 'IdProyecto', 'HorasRealizadas'], 'required'],
+            ['HorasRealizadas', HorasAlumnoValidator::className()],
+            ['IdPersona', AlumnoProyectoValidator::className()],
 //            [['IdPersona', 'IdProyecto'], 'unique', 'message'=> 'El estudiante ya esta registrado en este proyecto', 'targetAttribute' => ['IdPersona']],
             [['IdPersona', 'IdProyecto', 'HorasRealizadas', 'HorasRestantes', 'IdUsuarioRegistro'], 'integer'],
             [['ProyectoCompleto', 'PersonaActiva', 'EstadoRegistro'], 'string', 'max' => 1],
@@ -48,7 +52,7 @@ class Horas extends \yii\db\ActiveRecord
             [['IdProyecto'], 'exist', 'skipOnError' => true, 'targetClass' => Proyecto::className(), 'targetAttribute' => ['IdProyecto' => 'IdProyecto']],
 	    [['IdUsuarioRegistro'], 'exist', 'skipOnError' => true, 'targetClass' => UserAccounts::className(), 'targetAttribute' => ['IdUsuarioRegistro' => 'id']], 
         ];
-    }
+    }  
 
     /**
      * @inheritdoc

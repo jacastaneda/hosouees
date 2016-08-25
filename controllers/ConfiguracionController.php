@@ -3,8 +3,8 @@
 namespace app\controllers;
 
 use Yii;
-use app\models\Horas;
-use app\models\HorasSearch;
+use app\models\Configuracion;
+use app\models\ConfiguracionSearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
@@ -13,12 +13,10 @@ use \yii\web\Response;
 use yii\helpers\Html;
 
 /**
- * HorasController implements the CRUD actions for Horas model.
+ * ConfiguracionController implements the CRUD actions for Configuracion model.
  */
-class HorasController extends Controller
+class ConfiguracionController extends Controller
 {
-    public $idProyecto;
-    
     /**
      * @inheritdoc
      */
@@ -36,70 +34,57 @@ class HorasController extends Controller
     }
 
     /**
-     * Lists all Horas models.
+     * Lists all Configuracion models.
      * @return mixed
      */
-    public function actionIndex($idProyecto = FALSE)
+    public function actionIndex()
     {    
-        $this->layout = 'void';
-        $this->idProyecto = $idProyecto;
-        $proyecto = \app\modules\catalogs\models\Proyecto::findOne(['IdProyecto' => $idProyecto]);
-        if(! isset($proyecto))
-        {
-            die('Proyecto no existente');
-        }
-
-        $condicion = ($idProyecto !== FALSE) ? ['IdProyecto' => $idProyecto] : FALSE;        
-        
-        $searchModel = new HorasSearch();
-        $dataProvider = $searchModel->search(Yii::$app->request->queryParams, $condicion);
+        $searchModel = new ConfiguracionSearch();
+        $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
 
         return $this->render('index', [
             'searchModel' => $searchModel,
             'dataProvider' => $dataProvider,
-            'proyecto' => $proyecto,
         ]);
     }
 
 
     /**
-     * Displays a single Horas model.
-     * @param integer $IdPersona
-     * @param integer $IdProyecto
+     * Displays a single Configuracion model.
+     * @param integer $id
      * @return mixed
      */
-    public function actionView($IdPersona, $IdProyecto)
+    public function actionView($id)
     {   
         $request = Yii::$app->request;
         if($request->isAjax){
             Yii::$app->response->format = Response::FORMAT_JSON;
             return [
-                    'title'=> "Horas #".$IdPersona, $IdProyecto,
+                    'title'=> "Configuracion #".$id,
                     'content'=>$this->renderPartial('view', [
-                        'model' => $this->findModel($IdPersona, $IdProyecto),
+                        'model' => $this->findModel($id),
                     ]),
-                    'footer'=> Html::button('Cerrar',['class'=>'btn btn-default pull-left','data-dismiss'=>"modal"]).
-                            Html::a('Editar',['update','IdPersona'=>$IdPersona, 'IdProyecto'=>$IdProyecto],['class'=>'btn btn-primary','role'=>'modal-remote'])
+                    'footer'=> Html::button('Close',['class'=>'btn btn-default pull-left','data-dismiss'=>"modal"]).
+                            Html::a('Edit',['update','id'=>$id],['class'=>'btn btn-primary','role'=>'modal-remote'])
                 ];    
         }else{
             return $this->render('view', [
-                'model' => $this->findModel($IdPersona, $IdProyecto),
+                'model' => $this->findModel($id),
             ]);
         }
     }
 
     /**
-     * Creates a new Horas model.
+     * Creates a new Configuracion model.
      * For ajax request will return json object
      * and for non-ajax request if creation is successful, the browser will be redirected to the 'view' page.
      * @return mixed
      */
-    public function actionCreate($idProyecto = FALSE)
+    public function actionCreate()
     {
         $request = Yii::$app->request;
-        $model = new Horas();  
-        $this->idProyecto = $idProyecto;
-        
+        $model = new Configuracion();  
+
         if($request->isAjax){
             /*
             *   Process for ajax request
@@ -107,33 +92,31 @@ class HorasController extends Controller
             Yii::$app->response->format = Response::FORMAT_JSON;
             if($request->isGet){
                 return [
-                    'title'=> "Agregar nuevo registro",
+                    'title'=> "Create new Configuracion",
                     'content'=>$this->renderPartial('create', [
                         'model' => $model,
-                        'idProyecto' => $idProyecto,
                     ]),
-                    'footer'=> Html::button('Cerrar',['class'=>'btn btn-default pull-left','data-dismiss'=>"modal"]).
-                                Html::button('Guardar',['class'=>'btn btn-primary','type'=>"submit"])
+                    'footer'=> Html::button('Close',['class'=>'btn btn-default pull-left','data-dismiss'=>"modal"]).
+                                Html::button('Save',['class'=>'btn btn-primary','type'=>"submit"])
         
                 ];         
             }else if($model->load($request->post()) && $model->save()){
                 return [
                     'forceReload'=>'true',
-                    'title'=> "Agregar nuevo registro",
-                    'content'=>'<span class="text-success">Registro guardaro</span>',
-                    'footer'=> Html::button('Cerrar',['class'=>'btn btn-default pull-left','data-dismiss'=>"modal"]).
-                            Html::a('Registrar mas',['create','idProyecto' => $idProyecto],['class'=>'btn btn-primary','role'=>'modal-remote'])
+                    'title'=> "Create new Configuracion",
+                    'content'=>'<span class="text-success">Create Configuracion success</span>',
+                    'footer'=> Html::button('Close',['class'=>'btn btn-default pull-left','data-dismiss'=>"modal"]).
+                            Html::a('Create More',['create'],['class'=>'btn btn-primary','role'=>'modal-remote'])
         
                 ];         
             }else{           
                 return [
-                    'title'=> "Agregar nuevo registro",
+                    'title'=> "Create new Configuracion",
                     'content'=>$this->renderPartial('create', [
                         'model' => $model,
-                        'idProyecto' => $idProyecto,
                     ]),
-                    'footer'=> Html::button('Cerrar',['class'=>'btn btn-default pull-left','data-dismiss'=>"modal"]).
-                                Html::button('Guardar',['class'=>'btn btn-primary','type'=>"submit"])
+                    'footer'=> Html::button('Close',['class'=>'btn btn-default pull-left','data-dismiss'=>"modal"]).
+                                Html::button('Save',['class'=>'btn btn-primary','type'=>"submit"])
         
                 ];         
             }
@@ -142,11 +125,10 @@ class HorasController extends Controller
             *   Process for non-ajax request
             */
             if ($model->load($request->post()) && $model->save()) {
-                return $this->redirect(['view', 'IdPersona' => $model->IdPersona, 'IdProyecto' => $model->IdProyecto]);
+                return $this->redirect(['view', 'id' => $model->IdConfiguracion]);
             } else {
                 return $this->render('create', [
                     'model' => $model,
-                    'idProyecto' => $idProyecto,
                 ]);
             }
         }
@@ -154,17 +136,16 @@ class HorasController extends Controller
     }
 
     /**
-     * Updates an existing Horas model.
+     * Updates an existing Configuracion model.
      * For ajax request will return json object
      * and for non-ajax request if update is successful, the browser will be redirected to the 'view' page.
-     * @param integer $IdPersona
-     * @param integer $IdProyecto
+     * @param integer $id
      * @return mixed
      */
-    public function actionUpdate($IdPersona, $IdProyecto)
+    public function actionUpdate($id)
     {
         $request = Yii::$app->request;
-        $model = $this->findModel($IdPersona, $IdProyecto);       
+        $model = $this->findModel($id);       
 
         if($request->isAjax){
             /*
@@ -173,31 +154,31 @@ class HorasController extends Controller
             Yii::$app->response->format = Response::FORMAT_JSON;
             if($request->isGet){
                 return [
-                    'title'=> "Editar registro de horas sociales de <b>".$model->idPersona->NombreCompleto.'</b> en el proyecto <b>'.$model->idProyecto->NombreProyecto.'</b>',
+                    'title'=> "Update Configuracion #".$id,
                     'content'=>$this->renderPartial('update', [
-                        'model' => $model,
+                        'model' => $this->findModel($id),
                     ]),
-                    'footer'=> Html::button('Cerrar',['class'=>'btn btn-default pull-left','data-dismiss'=>"modal"]).
-                                Html::button('Guardar',['class'=>'btn btn-primary','type'=>"submit"])
+                    'footer'=> Html::button('Close',['class'=>'btn btn-default pull-left','data-dismiss'=>"modal"]).
+                                Html::button('Save',['class'=>'btn btn-primary','type'=>"submit"])
                 ];         
             }else if($model->load($request->post()) && $model->save()){
                 return [
                     'forceReload'=>'true',
-                    'title'=> "Registro de horas sociales de <b>".$model->idPersona->NombreCompleto.'</b> en el proyecto <b>'.$model->idProyecto->NombreProyecto.'</b>',
+                    'title'=> "Configuracion #".$id,
                     'content'=>$this->renderPartial('view', [
-                        'model' => $model,
+                        'model' => $this->findModel($id),
                     ]),
-                    'footer'=> Html::button('Cerrar',['class'=>'btn btn-default pull-left','data-dismiss'=>"modal"]).
-                            Html::a('Editar',['update', 'IdPersona' => $model->IdPersona, 'IdProyecto' => $model->IdProyecto],['class'=>'btn btn-primary','role'=>'modal-remote'])
+                    'footer'=> Html::button('Close',['class'=>'btn btn-default pull-left','data-dismiss'=>"modal"]).
+                            Html::a('Edit',['update','id'=>$id],['class'=>'btn btn-primary','role'=>'modal-remote'])
                 ];    
             }else{
                  return [
-                    'title'=> "Editar registro de horas sociales de <b>".$model->idPersona->NombreCompleto.'</b> en el proyecto <b>'.$model->idProyecto->NombreProyecto.'</b>',
+                    'title'=> "Update Configuracion #".$id,
                     'content'=>$this->renderPartial('update', [
-                        'model' => $model,
+                        'model' => $this->findModel($id),
                     ]),
-                    'footer'=> Html::button('Cerrar',['class'=>'btn btn-default pull-left','data-dismiss'=>"modal"]).
-                                Html::button('Guardar',['class'=>'btn btn-primary','type'=>"submit"])
+                    'footer'=> Html::button('Close',['class'=>'btn btn-default pull-left','data-dismiss'=>"modal"]).
+                                Html::button('Save',['class'=>'btn btn-primary','type'=>"submit"])
                 ];        
             }
         }else{
@@ -205,7 +186,7 @@ class HorasController extends Controller
             *   Process for non-ajax request
             */
             if ($model->load($request->post()) && $model->save()) {
-                return $this->redirect(['view', 'IdPersona' => $model->IdPersona, 'IdProyecto' => $model->IdProyecto]);
+                return $this->redirect(['view', 'id' => $model->IdConfiguracion]);
             } else {
                 return $this->render('update', [
                     'model' => $model,
@@ -215,17 +196,16 @@ class HorasController extends Controller
     }
 
     /**
-     * Delete an existing Horas model.
+     * Delete an existing Configuracion model.
      * For ajax request will return json object
      * and for non-ajax request if deletion is successful, the browser will be redirected to the 'index' page.
-     * @param integer $IdPersona
-     * @param integer $IdProyecto
+     * @param integer $id
      * @return mixed
      */
-    public function actionDelete($IdPersona, $IdProyecto)
+    public function actionDelete($id)
     {
         $request = Yii::$app->request;
-        $this->findModel($IdPersona, $IdProyecto)->delete();
+        $this->findModel($id)->delete();
 
         if($request->isAjax){
             /*
@@ -244,18 +224,17 @@ class HorasController extends Controller
     }
 
      /**
-     * Delete multiple existing Horas model.
+     * Delete multiple existing Configuracion model.
      * For ajax request will return json object
      * and for non-ajax request if deletion is successful, the browser will be redirected to the 'index' page.
-     * @param integer $IdPersona
-     * @param integer $IdProyecto
+     * @param integer $id
      * @return mixed
      */
     public function actionBulkDelete()
     {        
         $request = Yii::$app->request;
         $pks = $request->post('pks'); // Array or selected records primary keys
-        foreach (Horas::findAll(json_decode($pks)) as $model) {
+        foreach (Configuracion::findAll(json_decode($pks)) as $model) {
             $model->delete();
         }
         
@@ -276,16 +255,15 @@ class HorasController extends Controller
     }
 
     /**
-     * Finds the Horas model based on its primary key value.
+     * Finds the Configuracion model based on its primary key value.
      * If the model is not found, a 404 HTTP exception will be thrown.
-     * @param integer $IdPersona
-     * @param integer $IdProyecto
-     * @return Horas the loaded model
+     * @param integer $id
+     * @return Configuracion the loaded model
      * @throws NotFoundHttpException if the model cannot be found
      */
-    protected function findModel($IdPersona, $IdProyecto)
+    protected function findModel($id)
     {
-        if (($model = Horas::findOne(['IdPersona' => $IdPersona, 'IdProyecto' => $IdProyecto])) !== null) {
+        if (($model = Configuracion::findOne($id)) !== null) {
             return $model;
         } else {
             throw new NotFoundHttpException('The requested page does not exist.');
