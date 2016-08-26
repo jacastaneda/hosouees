@@ -48,6 +48,7 @@ return array(
     'johnitvn\\userplus\\' => array($vendorDir . '/johnitvn/yii2-user-plus/src'),
     'johnitvn\\rbacplus\\' => array($vendorDir . '/johnitvn/yii2-rbac-plus/src'),
     'johnitvn\\ajaxcrud\\' => array($vendorDir . '/johnitvn/yii2-ajaxcrud/src'),
+    'dosamigos\\tinymce\\' => array($vendorDir . '/2amigos/yii2-tinymce-widget/src'),
     'dmstr\\' => array($vendorDir . '/dmstr/yii2-adminlte-asset'),
     'cebe\\markdown\\' => array($vendorDir . '/cebe/markdown'),
     'Faker\\' => array($vendorDir . '/fzaninotto/faker/src/Faker'),

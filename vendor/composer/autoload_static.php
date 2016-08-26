@@ -68,6 +68,7 @@ class ComposerStaticInit491b57259d26ede26f33eef9dd2178da
         ),
         'd' => 
         array (
+            'dosamigos\\tinymce\\' => 18,
             'dmstr\\' => 6,
         ),
         'c' => 
@@ -248,6 +249,10 @@ class ComposerStaticInit491b57259d26ede26f33eef9dd2178da
         'johnitvn\\ajaxcrud\\' => 
         array (
             0 => __DIR__ . '/..' . '/johnitvn/yii2-ajaxcrud/src',
+        ),
+        'dosamigos\\tinymce\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/2amigos/yii2-tinymce-widget/src',
         ),
         'dmstr\\' => 
         array (

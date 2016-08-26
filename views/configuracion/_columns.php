@@ -7,22 +7,27 @@ return [
 //        'class' => 'kartik\grid\CheckboxColumn',
 //        'width' => '20px',
 //    ],
-    [
-        'class' => 'kartik\grid\SerialColumn',
-        'width' => '30px',
-    ],
-        [
-        'class'=>'\kartik\grid\DataColumn',
-        'attribute'=>'IdConfiguracion',
-    ],
+//    [
+//        'class' => 'kartik\grid\SerialColumn',
+//        'width' => '30px',
+//    ],
+//        [
+//        'class'=>'\kartik\grid\DataColumn',
+//        'attribute'=>'IdConfiguracion',
+//    ],
     [
         'class'=>'\kartik\grid\DataColumn',
         'attribute'=>'CantidadHorasSociales',
     ],
+//    [
+//        'class'=>'\kartik\grid\DataColumn',
+//        'attribute'=>'PesoMaximoAdjuntos',
+//    ],
     [
         'class'=>'\kartik\grid\DataColumn',
-        'attribute'=>'PesoMaximoAdjuntos',
-    ],
+        'attribute'=>'TextoBienvenida',
+        'format'=> 'html'
+    ],    
     [
         'class' => '\kartik\grid\DataColumn',
         'attribute'=>'EstadoRegistro',
@@ -41,7 +46,7 @@ return [
         },
         'template' => '{view} {update}',
         'viewOptions'=>['role'=>'modal-remote','title'=>'Ver','data-toggle'=>'tooltip'],
-        'updateOptions'=>['role'=>'modal-remote','title'=>'Editar', 'data-toggle'=>'tooltip'],
+        'updateOptions'=>[/*'role'=>'modal-remote',*/'title'=>'Editar', 'data-toggle'=>'tooltip'],
         'deleteOptions'=>['role'=>'modal-remote','title'=>'Eiminar', 
                           'data-confirm'=>false, 'data-method'=>false,// for overide yii data api
                           'data-request-method'=>'post',
