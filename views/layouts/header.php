@@ -67,13 +67,13 @@ $persona  = PersonaHelper::getPersona();
 
                 <li class="dropdown user user-menu">
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-                        <?= Html::img('@web/uploads/'.PersonaHelper::getImagenPersona(), ['class' => 'user-image', 'alt'=>'Foto de usuario']);?> 
+                        <?= Html::img('@web/uploads/'.$persona->ArchivoAdjunto, ['class' => 'user-image', 'alt'=>'Foto de usuario']);?> 
                         <span class="hidden-xs"><?=Yii::$app->user->identity->username;?></span>
                     </a>
                     <ul class="dropdown-menu">
                         <!-- User image -->
                         <li class="user-header">
-                            <?= Html::img('@web/uploads/'.PersonaHelper::getImagenPersona(), ['class' => 'img-circle', 'alt'=>'Foto de usuario']);?> 
+                            <?= Html::img('@web/uploads/'.$persona->ArchivoAdjunto, ['class' => 'img-circle', 'alt'=>'Foto de usuario']);?> 
 
                             <p>
                                 <?php echo PersonaHelper::getNombrePersona(); ?>
@@ -83,7 +83,8 @@ $persona  = PersonaHelper::getPersona();
                         <!-- Menu Footer-->
                         <li class="user-footer">
                             <div class="pull-left">
-                                <a href="#" class="btn btn-default btn-flat">Perfil</a>
+                                <!--<a href="#" class="btn btn-default btn-flat">Perfil</a>-->
+                                <?=Html::a('Perfil', ['/estudiante/update-perfil/', 'id' => $persona->IdPersona], ['class' => "btn btn-default btn-flat"])?>
                             </div>
                             <div class="pull-right">
                                 <?= Html::a(

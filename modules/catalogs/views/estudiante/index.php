@@ -29,7 +29,7 @@ CrudAsset::register($this);
                     Html::a('<i class="glyphicon glyphicon-plus"></i>', ['/estudiante/create'],
                     [/*'role'=>'modal-remote',*/'title'=> 'Crear nuevo Estudiante','class'=>'btn btn-default']).
                     Html::a('<i class="glyphicon glyphicon-repeat"></i>', [''],
-                    ['data-pjax'=>1, 'class'=>'btn btn-default', 'title'=>'Reset Grid']).
+                    ['data-pjax'=>1, 'class'=>'btn btn-default', 'title'=>'Refrescar']).
                     '{toggleData}'.
                     '{export}'
                 ],

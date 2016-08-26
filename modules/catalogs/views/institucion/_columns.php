@@ -3,18 +3,18 @@ use yii\helpers\Url;
 use app\helpers\CrudHelper;
 
 return [
-    [
-        'class' => 'kartik\grid\CheckboxColumn',
-        'width' => '20px',
-    ],
-    [
-        'class' => 'kartik\grid\SerialColumn',
-        'width' => '30px',
-    ],
-        [
-        'class'=>'\kartik\grid\DataColumn',
-        'attribute'=>'IdInstitucion',
-    ],
+//    [
+//        'class' => 'kartik\grid\CheckboxColumn',
+//        'width' => '20px',
+//    ],
+//    [
+//        'class' => 'kartik\grid\SerialColumn',
+//        'width' => '30px',
+//    ],
+//        [
+//        'class'=>'\kartik\grid\DataColumn',
+//        'attribute'=>'IdInstitucion',
+//    ],
     [
         'class'=>'\kartik\grid\DataColumn',
         'attribute'=>'Nombre',

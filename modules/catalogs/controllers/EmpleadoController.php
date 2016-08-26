@@ -61,7 +61,7 @@ class EmpleadoController extends Controller
         if($request->isAjax){
             Yii::$app->response->format = Response::FORMAT_JSON;
             return [
-                    'title'=> "Persona #".$id,
+                    'title'=> "Empleado #".$id,
                     'content'=>$this->renderPartial('view', [
                         'model' => $this->findModel($id),
                     ]),

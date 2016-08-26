@@ -115,7 +115,12 @@ class EstudianteController extends Controller
 
             if ($model->save()) {
                 // upload only if valid uploaded file instance found
-                if ($image !== false && unlink($oldFile)) { // delete old and overwrite
+                if ($image !== false) { // delete old and overwrite
+                    if(file_exists($oldFile))
+                    {
+                        unlink($oldFile);
+                    }
+                    
                     $path = $model->getImageFile();
                     $image->saveAs($path);
                 }
@@ -128,6 +133,49 @@ class EstudianteController extends Controller
             'model'=>$model,
         ]);
     }
+    
+    /*
+     * If update is successful, the browser will be redirected to the 'view' page.
+     * @param integer $id
+     * @return mixed
+     */
+    public function actionUpdatePerfil($id)
+    {
+        $model = $this->findModel($id);
+        $oldFile = $model->getImageFile();
+        $oldAvatar = $model->ArchivoAdjunto;
+        $oldFileName = $model->NombreAdjunto;
+
+
+        if ($model->load(Yii::$app->request->post())) {
+            // process uploaded image file instance
+            $image = $model->uploadImage();
+
+            // revert back if no valid file instance uploaded
+            if ($image === false) {
+                $model->ArchivoAdjunto = $oldAvatar;
+                $model->NombreAdjunto = $oldFileName;
+            }
+
+            if ($model->save()) {
+                // upload only if valid uploaded file instance found
+                if ($image !== false) { // delete old and overwrite
+                    if(file_exists($oldFile))
+                    {
+                        unlink($oldFile);
+                    }
+                    $path = $model->getImageFile();
+                    $image->saveAs($path);
+                }
+                return $this->redirect(['/']);
+            } else {
+                // error in saving model
+            }
+        }
+        return $this->render('update_perfil', [
+            'model'=>$model,
+        ]);
+    }    
 
     /**
      * Deletes an existing Persona model.

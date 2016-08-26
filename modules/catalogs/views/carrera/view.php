@@ -21,7 +21,6 @@ use app\helpers\CrudHelper;
             ],            
             'Nombre',
             'NombreCorto',
-            'IdFacultad',
             [
                 'value' => CrudHelper::getEstadosRegistroLabel($model->EstadoRegistro),
                 'label'=> 'Estado del Registro',

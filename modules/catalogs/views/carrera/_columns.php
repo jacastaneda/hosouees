@@ -7,18 +7,18 @@ use app\modules\catalogs\models\Universidad;
 use app\modules\catalogs\models\Facultad;
 
 return [
-    [
-        'class' => 'kartik\grid\CheckboxColumn',
-        'width' => '20px',
-    ],
-    [
-        'class' => 'kartik\grid\SerialColumn',
-        'width' => '30px',
-    ],
-    [
-        'class'=>'\kartik\grid\DataColumn',
-        'attribute'=>'IdCarrera',
-    ],
+//    [
+//        'class' => 'kartik\grid\CheckboxColumn',
+//        'width' => '20px',
+//    ],
+//    [
+//        'class' => 'kartik\grid\SerialColumn',
+//        'width' => '30px',
+//    ],
+//    [
+//        'class'=>'\kartik\grid\DataColumn',
+//        'attribute'=>'IdCarrera',
+//    ],
     [
         'class'=>'\kartik\grid\DataColumn',
         'attribute'=>'idFacultad.idUniversidad.Nombre',

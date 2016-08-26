@@ -6,18 +6,18 @@ use yii\helpers\ArrayHelper;
 use app\modules\catalogs\models\EstadosProyecto;
 
 return [
-    [
-        'class' => 'kartik\grid\CheckboxColumn',
-        'width' => '20px',
-    ],
-    [
-        'class' => 'kartik\grid\SerialColumn',
-        'width' => '30px',
-    ],
-        [
-        'class'=>'\kartik\grid\DataColumn',
-        'attribute'=>'IdProyecto',
-    ],
+//    [
+//        'class' => 'kartik\grid\CheckboxColumn',
+//        'width' => '20px',
+//    ],
+//    [
+//        'class' => 'kartik\grid\SerialColumn',
+//        'width' => '30px',
+//    ],
+//        [
+//        'class'=>'\kartik\grid\DataColumn',
+//        'attribute'=>'IdProyecto',
+//    ],
     [
         'class'=>'\kartik\grid\DataColumn',
         'attribute'=>'NombreProyecto',

@@ -13,7 +13,7 @@ use app\helpers\CrudHelper;
 //            'IdInstitucion',
             'Nombre',
             'Siglas',
-            'SitioWeb',
+            'SitioWeb:url',
             [
                 'value' => CrudHelper::getEstadosRegistroLabel($model->EstadoRegistro),
                 'label'=> 'EstadoRegistro',

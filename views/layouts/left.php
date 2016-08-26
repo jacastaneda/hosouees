@@ -50,7 +50,8 @@ use yii\helpers\Html;
                         'visible'=> Yii::$app->user->can('AdministrarCatalogos'),
                         'items' => [
                             ['label' => 'Universidades', 'icon' => '', 'url' => ['/catalogs/universidad'], 'visible'=>\Yii::$app->user->can('MantoUniversidades')],
-                            ['label' => 'Carreras', 'icon' => '', 'url' => ['/catalogs/carrera'], 'visible'=>\Yii::$app->user->can('MantoFacultades')],
+                            ['label' => 'Carreras', 'icon' => '', 'url' => ['/catalogs/carrera'], 'visible'=>\Yii::$app->user->can('MantoCarreras')],
+                            ['label' => 'Facultades', 'icon' => '', 'url' => ['/catalogs/facultad'], 'visible'=>\Yii::$app->user->can('MantoFacultades')],
                             ['label' => 'Instituciones', 'icon' => '', 'url' => ['/catalogs/institucion'], 'visible'=>\Yii::$app->user->can('MantoInstituciones')],
                             ['label' => 'Proyecto', 'icon' => '', 'url' => ['/catalogs/proyecto'], 'visible'=>\Yii::$app->user->can('MantoProyectos')],
                             ['label' => 'Estudiantes', 'icon' => '', 'url' => ['/catalogs/estudiante'], 'visible'=>\Yii::$app->user->can('MantoPersonas')],

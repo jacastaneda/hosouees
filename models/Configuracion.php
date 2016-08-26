@@ -10,6 +10,7 @@ use Yii;
  * @property integer $IdConfiguracion
  * @property integer $CantidadHorasSociales
  * @property string $PesoMaximoAdjuntos
+ * @property string $TextoBienvenida 
  * @property string $EstadoRegistro
  */
 class Configuracion extends \yii\db\ActiveRecord
@@ -30,6 +31,7 @@ class Configuracion extends \yii\db\ActiveRecord
         return [
             [['CantidadHorasSociales', 'PesoMaximoAdjuntos'], 'required'],
             [['CantidadHorasSociales'], 'integer'],
+            [['TextoBienvenida'], 'string'], 
             [['PesoMaximoAdjuntos'], 'string', 'max' => 15],
             [['EstadoRegistro'], 'string', 'max' => 1],
         ];
@@ -44,6 +46,7 @@ class Configuracion extends \yii\db\ActiveRecord
             'IdConfiguracion' => Yii::t('app', 'Id Configuracion'),
             'CantidadHorasSociales' => Yii::t('app', 'Cantidad de horas sociales requeridas por cada alumno'),
             'PesoMaximoAdjuntos' => Yii::t('app', 'Peso maximo de los archivos a cargar'),
+            'TextoBienvenida' => Yii::t('app', 'Texto Bienvenida'), 
             'EstadoRegistro' => Yii::t('app', 'Estado Registro'),
         ];
     }

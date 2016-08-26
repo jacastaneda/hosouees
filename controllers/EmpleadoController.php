@@ -115,7 +115,11 @@ class EmpleadoController extends Controller
 
             if ($model->save()) {
                 // upload only if valid uploaded file instance found
-                if ($image !== false && unlink($oldFile)) { // delete old and overwrite
+                if ($image !== false) { // delete old and overwrite
+                    if(file_exists($oldFile))
+                    {
+                        unlink($oldFile);
+                    }                    
                     $path = $model->getImageFile();
                     $image->saveAs($path);
                 }

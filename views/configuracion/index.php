@@ -5,6 +5,7 @@ use yii\bootstrap\Modal;
 use kartik\grid\GridView;
 use johnitvn\ajaxcrud\CrudAsset; 
 use johnitvn\ajaxcrud\BulkButtonWidget;
+use app\helpers\CrudHelper;
 
 /* @var $this yii\web\View */
 /* @var $searchModel app\models\ConfiguracionSearch */
@@ -29,7 +30,7 @@ CrudAsset::register($this);
 //                    Html::a('<i class="glyphicon glyphicon-plus"></i>', ['create'],
 //                    ['role'=>'modal-remote','title'=> 'Create new Configuracions','class'=>'btn btn-default']).
                     Html::a('<i class="glyphicon glyphicon-repeat"></i>', [''],
-                    ['data-pjax'=>1, 'class'=>'btn btn-default', 'title'=>'Reset Grid']).
+                    ['data-pjax'=>1, 'class'=>'btn btn-default', 'title'=>'Refrescar']).
                     '{toggleData}'.
                     '{export}'
                 ],
